@@ -1,7 +1,7 @@
 import React from 'react';
 import HeroSection from '../components/workspace/HeroSection';
 import ToolCard from '../components/workspace/ToolCard';
-import HistoryItem from '../components/workspace/HistoryItem';
+import HistoryItem from '../components/workspace/HistoryItem'; // Make sure this is the redesigned version
 
 import { MessageSquare, FileText, Milestone, Mail } from 'lucide-react';
 
@@ -12,20 +12,25 @@ const tools = [
   { icon: <Mail />, title: 'Cover Letter Generator', description: 'Write a cover letter', buttonText: 'Create Now' },
 ];
 
+// Updated and expanded history data
 const history = [
-    { icon: <FileText />, toolName: 'AI Resume Analyzer', timestamp: 'Sun Jun 01 2025 12:07:32 GMT-0400 (Eastern Daylight Time)' },
-    { icon: <Milestone />, toolName: 'Career Roadmap Generator', timestamp: 'Sun Jun 01 2025 11:54:49 GMT-0400 (Eastern Daylight Time)' },
+    { id: 1, icon: <FileText />, toolName: 'AI Resume Analysis', timestamp: 'Jul 21 2025 14:30:15 GMT+0400', status: 'Completed' },
+    { id: 2, icon: <Mail />, toolName: 'Cover Letter for "Software Engineer"', timestamp: 'Jul 20 2025 11:22:05 GMT+0400', status: 'Completed' },
+    { id: 3, icon: <Milestone />, toolName: 'Career Roadmap Generation', timestamp: 'Jul 19 2025 09:45:50 GMT+0400', status: 'In Progress' },
+    { id: 5, icon: <Mail />, toolName: 'Cover Letter for "Data Analyst"', timestamp: 'Jul 17 2025 10:05:18 GMT+0400', status: 'Failed' },
 ];
 
 const WorkspacePage = () => {
   return (
     <div className="container-fluid">
+      {/* --- THIS SECTION IS UNTOUCHED --- */}
       <div className="row mb-5">
         <div className="col-12">
           <HeroSection />
         </div>
       </div>
 
+      {/* --- THIS SECTION IS UNTOUCHED --- */}
       <div className="row mb-5">
         <div className="col-12">
           <h2 className="fw-bold">Available AI Tools</h2>
@@ -42,15 +47,17 @@ const WorkspacePage = () => {
         </div>
       </div>
 
-       <div className="row">
+      {/* --- THIS IS THE UPDATED HISTORY SECTION --- */}
+      <div className="row">
         <div className="col-12">
             <h2 className="fw-bold">Previous History</h2>
-            <p className="text-muted">What Your previously work on, You can find here</p>
+            <p className="text-muted">What you previously worked on, you can find here</p>
         </div>
         <div className="col-12">
+            {/* Using Bootstrap's vertical stack for a clean, spaced list */}
             <div className="vstack gap-3">
-                {history.map((item, index) => (
-                    <HistoryItem key={index} {...item} />
+                {history.map((item) => (
+                    <HistoryItem key={item.id} {...item} />
                 ))}
             </div>
         </div>

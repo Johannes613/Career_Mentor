@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// Removed Grid and Paper from MUI imports as they are replaced by Bootstrap classes
 import { Box, Typography, TextField, Button, IconButton, InputAdornment, Link, useTheme } from '@mui/material';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -34,40 +33,43 @@ const LoginPage = () => {
     };
 
     return (
-        // Bootstrap's main row container. g-0 removes gutters so panels are flush.
-        <div className="row g-0" style={{ minHeight: '100vh' }}>
-            {/* Left Decorative Panel using Bootstrap columns */}
+        // Bootstrap's main row container. g-0 removes gutters.
+        <div className="row g-0">
+            {/* Left Decorative Panel */}
             <div 
-                className="d-none d-sm-flex col-sm-4 col-md-5"
+                // RESPONSIVE FIX: This panel is now col-12 on mobile, and col-sm-4/col-md-5 on larger screens
+                className="col-12 col-md-6 col-lg-5 d-flex"
                 style={{
                     backgroundColor: theme.palette.primary.main,
                     color: theme.palette.primary.contrastText,
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    padding: '2rem',
+                    padding: '3rem 2rem', 
+                    minHeight: '400px'
                 }}
             >
                 <Bot size={80} />
                 <Typography component="h1" variant="h4" fontWeight="bold" sx={{ mt: 2 }}>
-                    Hi, Welcome Aboard!
+                    Hi, Welcome to Career Mentor
                 </Typography>
                 <Typography variant="subtitle1" sx={{ mt: 1, opacity: 0.8, textAlign: 'center' }}>
                     More effectively with our AI-powered career tools.
                 </Typography>
             </div>
 
-            {/* Right Form Panel using Bootstrap columns */}
-            <div className="col-12 col-sm-8 col-md-7">
+            {/* Right Form Panel */}
+            <div className="col-12 col-md-6 col-lg-7">
                 <Box
                     sx={{
-                        height: '100%',
+                        // RESPONSIVE FIX: Height adjusts for stacking vs side-by-side layout
+                        minHeight: { xs: 'auto', sm: '100vh' },
+                        py: { xs: 8, sm: 0 }, // Add vertical padding on mobile
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
                         px: 4,
-                        // Use theme's background color
                         backgroundColor: theme.palette.background.paper,
                     }}
                 >

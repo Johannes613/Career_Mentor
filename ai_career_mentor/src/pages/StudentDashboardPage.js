@@ -14,9 +14,9 @@ const StudentDashboardPage = () => {
 
   return (
     <>
-      <h5 className="fw-bold mb-1">Welcome back, {user.name}!</h5>
+      <h5 className="fw-bold mb-1">Welcome back, {user.name}</h5>
       <p className="text-muted mb-4">
-        Your progress this week is Awesome. Let's keep it up!
+        You've made great progress this week, keep up the excellent work
       </p>
 
       <div className="row g-4">
@@ -33,7 +33,7 @@ const StudentDashboardPage = () => {
             title="Avg. Resume Score"
             value="82%"
             Icon={Target}
-            color="success"
+            color="secondary"
           />
         </div>
         <div className="col-12 col-md-4 ">
