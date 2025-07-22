@@ -10,64 +10,43 @@ import {
   useTheme,
 } from "@mui/material";
 import { keyframes } from "@mui/system";
-
-// Import necessary icons
 import ChatIcon from "@mui/icons-material/Chat";
 import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
+import { Bot } from "lucide-react";
 
-// Keyframes for the dot animation
 const bounce = keyframes`
   0%, 80%, 100% { transform: scale(0); }
   40% { transform: scale(1.0); }
 `;
 
-// A new component for the "AI is thinking..." indicator
 const TypingIndicator = () => (
-  <Box
-    sx={{
-      display: "flex",
-      alignItems: "center",
-      gap: 1,
-      alignSelf: "flex-start",
-    }}
-  >
+  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
     <Box sx={{ display: "flex", gap: "4px" }}>
-      <Box
-        sx={{
-          width: 8,
-          height: 8,
-          bgcolor: "primary.main",
-          borderRadius: "50%",
-          animation: `${bounce} 1.4s infinite ease-in-out both`,
-          animationDelay: "-0.32s",
-        }}
-      /> 
-      <Box
-        sx={{
-          width: 8,
-          height: 8,
-          bgcolor: "primary.main",
-          borderRadius: "50%",
-          animation: `${bounce} 1.4s infinite ease-in-out both`,
-          animationDelay: "-0.16s",
-        }}
-      />
-      <Box
-        sx={{
-          width: 8,
-          height: 8,
-          bgcolor: "primary.main",
-          borderRadius: "50%",
-          animation: `${bounce} 1.4s infinite ease-in-out both`,
-        }}
-      />
+      {[0, 1, 2].map((i) => (
+        <Box
+          key={i}
+          sx={{
+            width: 8,
+            height: 8,
+            bgcolor: "primary.main",
+            borderRadius: "50%",
+            animation: `${bounce} 1.4s infinite ease-in-out both`,
+            animationDelay: `${-0.32 + i * 0.16}s`,
+          }}
+        />
+      ))}
     </Box>
     <Typography variant="body2" color="text.secondary">
-      AI is thinking...
+      AI is typing...
     </Typography>
   </Box>
 );
+
+const formatTime = () => {
+  const now = new Date();
+  return now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+};
 
 const Chatbot = () => {
   const theme = useTheme();
@@ -76,13 +55,14 @@ const Chatbot = () => {
     {
       from: "bot",
       text: "Hi! I'm your CareerMentor AI Assistant. I can help you with career questions, resume feedback, and planning your next steps. How can I assist you today?",
+      time: formatTime(),
     },
   ]);
-  // State to track if the bot is "typing"
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // Effect to scroll to the bottom of the chat
+  const toggleChat = () => setIsOpen((prev) => !prev);
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -91,37 +71,34 @@ const Chatbot = () => {
     scrollToBottom();
   }, [messages, isTyping]);
 
-  const toggleChat = () => {
-    setIsOpen((prev) => !prev);
-  };
-
   const handleSendMessage = (event) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const text = formData.get("message");
+    const form = new FormData(event.currentTarget);
+    const text = form.get("message");
     if (text.trim()) {
-      setMessages((prev) => [...prev, { from: "user", text }]);
-      setIsTyping(true); // Show the typing indicator
+      const time = formatTime();
+      setMessages((prev) => [...prev, { from: "user", text, time }]);
+      setIsTyping(true);
       event.currentTarget.reset();
 
-      // Simulate a bot response after a delay
       setTimeout(() => {
-        setIsTyping(false); // Hide the typing indicator
+        setIsTyping(false);
         setMessages((prev) => [
           ...prev,
           {
             from: "bot",
-            text: "Thanks for your message! I'm processing your request.",
+            text: "Ahlan wa sahlan! Hello! Let me assist you with that.",
+            time: formatTime(),
           },
         ]);
-      }, 2500); // Increased delay to make the indicator visible
+      }, 2000);
     }
   };
 
   return (
     <>
       <Paper
-        elevation={8}
+        elevation={10}
         sx={{
           position: "fixed",
           bottom: 100,
@@ -132,14 +109,15 @@ const Chatbot = () => {
           display: "flex",
           flexDirection: "column",
           zIndex: 1300,
-          transition: "transform 0.3s ease-in-out, opacity 0.2s ease-in-out",
+          bgcolor: "background.paper",
+          border: "1px solid",
+          borderColor: "divider",
+          transition: "all 0.3s ease",
           transform: isOpen ? "scale(1)" : "scale(0.95)",
           opacity: isOpen ? 1 : 0,
-          transformOrigin: "bottom right",
           visibility: isOpen ? "visible" : "hidden",
         }}
       >
-        {/* Header */}
         <Box
           sx={{
             p: 2,
@@ -150,15 +128,31 @@ const Chatbot = () => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h6" fontWeight="bold">
-            AI Assistant
-          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+            <Bot size={24} />
+            <Box>
+              <Typography variant="h6" fontWeight="bold">
+                AI Assistant
+              </Typography>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                <Box
+                  sx={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    bgcolor: "success.main",
+                  }}
+                />
+                <Typography variant="caption">
+                  Online • Ready to help
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
           <IconButton onClick={toggleChat} color="inherit">
             <CloseIcon />
           </IconButton>
         </Box>
-
-        {/* Message Area */}
         <Box
           sx={{
             flexGrow: 1,
@@ -166,47 +160,66 @@ const Chatbot = () => {
             overflowY: "auto",
             display: "flex",
             flexDirection: "column",
-            gap: 2,
+            gap: 1.5,
+            bgcolor: theme.palette.grey[50],
           }}
         >
-          {messages.map((msg, index) => (
+          {messages.map((msg, idx) => (
             <Box
-              key={index}
+              key={idx}
               sx={{
                 alignSelf: msg.from === "user" ? "flex-end" : "flex-start",
                 bgcolor:
-                  msg.from === "user" ? "primary.main" : "background.default",
+                  msg.from === "user" ? "primary.main" : "background.paper",
                 color:
                   msg.from === "user" ? "primary.contrastText" : "text.primary",
-                p: 1.5,
-                borderRadius: 3,
+                px: 2,
+                py: 1.2,
+                borderRadius: 2,
+                boxShadow: 1,
                 maxWidth: "80%",
               }}
             >
               <Typography variant="body2">{msg.text}</Typography>
+              <Typography
+                variant="caption"
+                sx={{
+                  display: "block",
+                  mt: 0.5,
+                  opacity: 0.6,
+                  fontSize: "0.65rem",
+                }}
+              >
+                {msg.time}
+              </Typography>
             </Box>
           ))}
-          {/* Conditionally render the typing indicator */}
           {isTyping && <TypingIndicator />}
           <div ref={messagesEndRef} />
         </Box>
 
-        {/* Input Area */}
+        {/* Input area */}
         <Box
           component="form"
           onSubmit={handleSendMessage}
-          sx={{ p: 2, borderTop: 1, borderColor: "divider" }}
+          sx={{
+            p: 2,
+            borderTop: "1px solid",
+            borderColor: "divider",
+            bgcolor: "background.default",
+          }}
         >
           <TextField
             fullWidth
             name="message"
-            placeholder="Enter your message..."
             variant="outlined"
+            placeholder="Enter your message..."
+            size="small"
             autoComplete="off"
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton type="submit" color="primary" edge="end">
+                  <IconButton type="submit" color="primary">
                     <SendIcon />
                   </IconButton>
                 </InputAdornment>
@@ -218,9 +231,14 @@ const Chatbot = () => {
 
       <Fab
         color="primary"
-        aria-label="chat"
         onClick={toggleChat}
-        sx={{ position: "fixed", bottom: 24, right: 24, zIndex: 1300 }}
+        sx={{
+          position: "fixed",
+          bottom: 24,
+          right: 24,
+          zIndex: 1300,
+          boxShadow: 6,
+        }}
       >
         {isOpen ? <CloseIcon /> : <ChatIcon />}
       </Fab>

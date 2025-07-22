@@ -57,6 +57,9 @@ const CoverLetterGeneratorPage = () => {
             {/* --- HISTORY SECTION (Bootstrap Row) --- */}
             <div className="row">
                 <div className="col-12">
+                    <Typography variant="h5" component="h2" fontWeight="bold" sx={{ mb: 2 }}>
+                    Generation History
+                </Typography>
                     <GenerationHistory history={history} />
                 </div>
             </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, Card, CardContent, useTheme } from '@mui/material';
 import { alpha } from '@mui/material/styles';
+import { ArrowRight } from 'lucide-react';
 
 const GenerationHistory = ({ history }) => {
     const theme = useTheme();
@@ -8,10 +9,9 @@ const GenerationHistory = ({ history }) => {
     return (
         // The entire section is now wrapped in a Card for a consistent, professional look
         <Card elevation={0} sx={{ border: `1px solid ${theme.palette.divider}` }}>
+           
             <CardContent>
-                <Typography variant="h5" component="h2" fontWeight="bold" sx={{ mb: 2 }}>
-                    Generation History
-                </Typography>
+               
                 <TableContainer component={Paper} elevation={0}>
                     <Table sx={{ minWidth: 650 }} aria-label="generation history table">
                         {/* The TableHead is now styled */}
@@ -20,7 +20,7 @@ const GenerationHistory = ({ history }) => {
                                 <TableCell sx={{ fontWeight: 'bold' }}>Role</TableCell>
                                 <TableCell sx={{ fontWeight: 'bold' }}>Company</TableCell>
                                 <TableCell sx={{ fontWeight: 'bold' }}>Date Generated</TableCell>
-                                <TableCell sx={{ fontWeight: 'bold' }} align="right">Actions</TableCell>
+                                <TableCell sx={{ fontWeight: 'bold'}} align="right">Actions</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -35,8 +35,13 @@ const GenerationHistory = ({ history }) => {
                                     <TableCell>{row.company}</TableCell>
                                     <TableCell>{row.date}</TableCell>
                                     <TableCell align="right">
-                                        <Button variant="outlined" size="small">View</Button>
-                                    </TableCell>
+<Button 
+                    variant="outlined" 
+                    color="secondary"
+                    endIcon={<ArrowRight size={16} />}
+                >
+                    View
+                </Button>                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

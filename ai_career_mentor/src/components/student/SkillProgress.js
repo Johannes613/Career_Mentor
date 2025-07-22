@@ -9,7 +9,7 @@ const skills = [
   { name: 'Basic of music theory', progress: 24 },
 ];
 
-const barColors = ['primary', 'success', 'secondary', 'warning'];
+const barColors = ['primary', 'primary', 'primary', 'primary'];
 
 const SkillProgress = (props) => {
   const theme = useTheme();

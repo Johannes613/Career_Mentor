@@ -4,12 +4,12 @@ import { Sparkles } from 'lucide-react';
 
 const JobInputSection = ({ onGenerate, isLoading }) => {
     const [inputs, setInputs] = useState({
-        name: 'Felecia',
-        role: 'Software Engineer',
-        company: 'CareerMentorAI',
-        skills: 'React, Node.js, Material-UI',
+        name: '',
+        role: '',
+        company: '',
+        skills: '',
         description: '',
-        tone: 'Professional',
+        tone: '',
     });
 
     const handleChange = (e) => {
