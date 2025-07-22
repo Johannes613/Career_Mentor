@@ -23,6 +23,7 @@ const SkillsChart = () => (
       display: 'flex',
       flexDirection: 'column',
       width: '100%',
+      padding: 0,
     }}
   >
     <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>

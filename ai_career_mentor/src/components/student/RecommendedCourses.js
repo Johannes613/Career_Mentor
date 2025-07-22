@@ -22,7 +22,7 @@ const RecommendedCourses = () => (
     }}
   >
     <CardContent sx={{ flexGrow: 1 }}>
-      <Typography variant="h6" fontWeight="bold" mb={2}>
+      <Typography variant="h6" fontWeight="bold" mb={3}>
         Top Recommended Courses
       </Typography>
       {courses.map(({ name, views, Icon }) => (
@@ -32,7 +32,7 @@ const RecommendedCourses = () => (
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            mb: 2,
+            mb: 3,
           }}
         >
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>

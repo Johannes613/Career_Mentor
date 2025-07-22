@@ -25,7 +25,6 @@ const AnalysisHistoryTable = ({ history }) => {
       <CardContent>
         <TableContainer component={Paper} elevation={0}>
           <Table sx={{ minWidth: 650 }} aria-label="analysis history table">
-            {/* The TableHead is now styled with a background and bold text */}
             <TableHead
               sx={{ bgcolor: alpha(theme.palette.primary.main, 0.04) }}
             >
@@ -40,7 +39,7 @@ const AnalysisHistoryTable = ({ history }) => {
                 <TableCell sx={{ fontWeight: "bold" }} align="center">
                   Date
                 </TableCell>
-                <TableCell sx={{ fontWeight: "bold" }} align="right">
+                <TableCell sx={{ fontWeight: "bold",pr:5 }} align="right">
                   Actions
                 </TableCell>
               </TableRow>
