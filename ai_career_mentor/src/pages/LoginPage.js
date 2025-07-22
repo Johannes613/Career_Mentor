@@ -1,31 +1,174 @@
-import React from 'react';
-import { Box, Button, Paper, Typography } from '@mui/material';
-import { Bot } from 'lucide-react';
+import React, { useState } from 'react';
+// Removed Grid and Paper from MUI imports as they are replaced by Bootstrap classes
+import { Box, Typography, TextField, Button, IconButton, InputAdornment, Link, useTheme } from '@mui/material';
 import { useAuth } from '../contexts/AuthContext';
+
+// Icons
+import { Bot } from 'lucide-react';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const LoginPage = () => {
     const { login } = useAuth();
+    const theme = useTheme();
+    
+    const [isSignUp, setIsSignUp] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleToggleForm = (event) => {
+        event.preventDefault();
+        setIsSignUp(prev => !prev);
+    };
+
+    const handleClickShowPassword = () => {
+        setShowPassword(prev => !prev);
+    };
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
+    
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        login('student');
+    };
+
     return (
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', bgcolor: 'background.default' }}>
-            <Paper elevation={3} sx={{ p: 4, width: '100%', maxWidth: 400, textAlign: 'center', borderRadius: 4 }}>
-                <Bot style={{ height: 64, width: 64, color: 'primary.main', margin: '0 auto 16px' }} />
-                <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
-                    CareerMentor
+        // Bootstrap's main row container. g-0 removes gutters so panels are flush.
+        <div className="row g-0" style={{ minHeight: '100vh' }}>
+            {/* Left Decorative Panel using Bootstrap columns */}
+            <div 
+                className="d-none d-sm-flex col-sm-4 col-md-5"
+                style={{
+                    backgroundColor: theme.palette.primary.main,
+                    color: theme.palette.primary.contrastText,
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '2rem',
+                }}
+            >
+                <Bot size={80} />
+                <Typography component="h1" variant="h4" fontWeight="bold" sx={{ mt: 2 }}>
+                    Hi, Welcome Aboard!
                 </Typography>
-                <Typography color="text.secondary" sx={{ mb: 4 }}>
-                    Login to Your Dashboard
+                <Typography variant="subtitle1" sx={{ mt: 1, opacity: 0.8, textAlign: 'center' }}>
+                    More effectively with our AI-powered career tools.
                 </Typography>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                    <Button variant="contained" color="primary" onClick={() => login('student')} sx={{color: 'white'}}>
-                        Login as Student
-                    </Button>
-                    <Button variant="outlined" color="secondary" onClick={() => login('admin')}>
-                        Login as Admin
-                    </Button>
+            </div>
+
+            {/* Right Form Panel using Bootstrap columns */}
+            <div className="col-12 col-sm-8 col-md-7">
+                <Box
+                    sx={{
+                        height: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        px: 4,
+                        // Use theme's background color
+                        backgroundColor: theme.palette.background.paper,
+                    }}
+                >
+                    <Box sx={{ width: '100%', maxWidth: '400px' }}>
+                        <Typography component="h1" variant="h5" fontWeight="bold">
+                            {isSignUp ? 'Create an account' : 'Welcome Back!'}
+                        </Typography>
+                        <Typography color="text.secondary" sx={{ mt: 1, mb: 3 }}>
+                            {isSignUp ? 'Get started with your free account.' : 'Sign in to continue.'}
+                        </Typography>
+
+                        <Box component="form" noValidate onSubmit={handleSubmit}>
+                            {isSignUp && (
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="name"
+                                    label="Full Name"
+                                    name="name"
+                                    autoComplete="name"
+                                    autoFocus
+                                />
+                            )}
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="email"
+                                label="Email Address"
+                                name="email"
+                                autoComplete="email"
+                                autoFocus={!isSignUp}
+                            />
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type={showPassword ? 'text' : 'password'}
+                                id="password"
+                                autoComplete="current-password"
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={handleClickShowPassword}
+                                                onMouseDown={handleMouseDownPassword}
+                                                edge="end"
+                                            >
+                                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                            {isSignUp && (
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="confirmPassword"
+                                    label="Confirm Password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    id="confirmPassword"
+                                />
+                            )}
+                            
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                size="large"
+                                sx={{ 
+                                    mt: 3, 
+                                    mb: 2,
+                                    bgcolor: 'primary.main',
+                                    color: 'primary.contrastText',
+                                    '&:hover': {
+                                        bgcolor: theme.palette.mode === 'light' ? 'grey.800' : 'grey.200'
+                                    }
+                                }}
+                            >
+                                {isSignUp ? 'Sign Up' : 'Sign In'}
+                            </Button>
+                            
+                            <div className="d-flex justify-content-end">
+                                <Link href="#" variant="body2" onClick={handleToggleForm}>
+                                    {isSignUp
+                                        ? "Already have an account? Sign in"
+                                        : "Don't have an account? Sign Up"}
+                                </Link>
+                            </div>
+                        </Box>
+                    </Box>
                 </Box>
-            </Paper>
-        </Box>
+            </div>
+        </div>
     );
 };
 
-export default LoginPage
+export default LoginPage;
