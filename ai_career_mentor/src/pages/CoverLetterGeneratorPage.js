@@ -34,7 +34,7 @@ const CoverLetterGeneratorPage = () => {
             <div className="row mb-4">
                 <div className="col-12">
                     <Typography variant="h4" component="h1" fontWeight="bold">
-                        AI Cover Letter Generator
+                        Cover Letter Generator
                     </Typography>
                     <Typography color="text.secondary">
                         Create a compelling, tailored cover letter in seconds.
@@ -43,13 +43,13 @@ const CoverLetterGeneratorPage = () => {
             </div>
 
             {/* --- MAIN TWO-COLUMN LAYOUT (Bootstrap Row) --- */}
-            <div className="row g-4 mb-5">
+            <div className="row g-5 mb-5">
                 {/* Input Section Column */}
-                <div className="col-12 col-md-5 d-flex">
+                <div className="col-12 col-lg-5 d-flex">
                     <JobInputSection onGenerate={handleGenerate} isLoading={isLoading} />
                 </div>
                 {/* Preview Section Column */}
-                <div className="col-12 col-md-7 d-flex">
+                <div className="col-12 col-lg-7 d-flex">
                     <GeneratedLetterPreview letter={generatedLetter} isLoading={isLoading} />
                 </div>
             </div>

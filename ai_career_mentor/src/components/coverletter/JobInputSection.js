@@ -29,7 +29,7 @@ const JobInputSection = ({ onGenerate, isLoading }) => {
     };
 
     return (
-        <Card sx={{ height: '100%' }}>
+        <Card sx={{ height: '100%',width:'100%' }}>
             <CardContent component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <Typography variant="h6" fontWeight="bold">Your Information</Typography>
                 <TextField label="Your Name" name="name" value={inputs.name} onChange={handleChange} required />
