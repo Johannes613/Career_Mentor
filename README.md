@@ -15,25 +15,11 @@
 
   <p><em>Deployed Site: https://ai-career-mentor.vercel.app/</em></p>
   
-  <h3>Screenshots</h3>
-  <div style="text-align: center;">
-    <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
-        <img style="width: 48%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" alt="Student Dashboard View" src="https://github.com/user-attachments/assets/f4926536-8bfd-473b-b520-fd8d76c39299" />
-        <img style="width: 48%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" alt="Workspace Page View" src="https://github.com/user-attachments/assets/975c3329-f4f8-4b15-b626-09701018e6d1" />
-    </div>
-    <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
-        <img style="width: 48%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" alt="AI Resume Analyzer Results" src="https://github.com/user-attachments/assets/84087425-facf-4744-a1f8-31fda3f24609" />
-        <img style="width: 48%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" alt="AI Resume Analyzer Initial Page" src="https://github.com/user-attachments/assets/18dda0a3-4996-4540-b427-26343d6693d7" />
-    </div>
-    <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
-        <img style="width: 48%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" alt="My Documents Page View" src="https://github.com/user-attachments/assets/48341183-0b73-477c-8ed7-3ce79dfa05f4" />
-        <img style="width: 48%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" alt="Career Roadmap Generator" src="https://github.com/user-attachments/assets/d35ab39b-dd42-4f8d-919a-8257b2c78959" />
-    </div>
-    <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
-        <img style="width: 48%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" alt="Login Page View" src="https://github.com/user-attachments/assets/c3495a38-6c29-4700-bbbc-4a547e7a036c" />
-        <img style="width: 48%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" alt="AI Chatbot Assistant" src="https://github.com/user-attachments/assets/e9b1ef97-7393-4ec8-a179-1888c82a528a" />
-    </div>
-  </div>
+  <h3>Preview</h3>
+ <img src="https://github.com/user-attachments/assets/20c024ed-8554-44e1-aa1f-fb950bde9752" alt="Preview GIF" style="max-width: 100%; height: auto;" />
+
+  
+    
 
   <hr/>
 
