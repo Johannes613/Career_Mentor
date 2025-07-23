@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>CareerMentorAI Project Overview</title>
 </head>
 <body style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 1000px; margin: auto; padding: 20px;">
 
@@ -17,22 +16,22 @@
   <p><em>(You can add your deployment link here once it's live)</em></p>
   
   <h3>Screenshots</h3>
-  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; text-align: center;">
-    <div style="flex: 1; min-width: 400px;">
-        <p><strong>Student Dashboard</strong></p>
-        <img width="450" alt="A professional dashboard showing student stats, skills, and recommended courses." src="YOUR_IMAGE_URL_HERE" />
+  <div style="text-align: center;">
+    <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
+        <img style="width: 48%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" alt="Student Dashboard View" src="https://github.com/user-attachments/assets/f4926536-8bfd-473b-b520-fd8d76c39299" />
+        <img style="width: 48%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" alt="Workspace Page View" src="https://github.com/user-attachments/assets/975c3329-f4f8-4b15-b626-09701018e6d1" />
     </div>
-    <div style="flex: 1; min-width: 400px;">
-        <p><strong>AI Tools Workspace</strong></p>
-        <img width="450" alt="The workspace page with a hero section, tool cards, and history." src="YOUR_IMAGE_URL_HERE" />
+    <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
+        <img style="width: 48%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" alt="AI Resume Analyzer Results" src="https://github.com/user-attachments/assets/84087425-facf-4744-a1f8-31fda3f24609" />
+        <img style="width: 48%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" alt="AI Resume Analyzer Initial Page" src="https://github.com/user-attachments/assets/18dda0a3-4996-4540-b427-26343d6693d7" />
     </div>
-    <div style="flex: 1; min-width: 400px;">
-        <p><strong>Resume Analyzer Results</strong></p>
-        <img width="450" alt="The detailed AI analysis results page with scores and a resume preview." src="YOUR_IMAGE_URL_HERE" />
+    <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
+        <img style="width: 48%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" alt="My Documents Page View" src="https://github.com/user-attachments/assets/48341183-0b73-477c-8ed7-3ce79dfa05f4" />
+        <img style="width: 48%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" alt="Career Roadmap Generator" src="https://github.com/user-attachments/assets/d35ab39b-dd42-4f8d-919a-8257b2c78959" />
     </div>
-    <div style="flex: 1; min-width: 400px;">
-        <p><strong>Login & Sign Up Page</strong></p>
-        <img width="450" alt="The responsive two-panel login and sign-up screen." src="YOUR_IMAGE_URL_HERE" />
+    <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
+        <img style="width: 48%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" alt="Login Page View" src="https://github.com/user-attachments/assets/c3495a38-6c29-4700-bbbc-4a547e7a036c" />
+        <img style="width: 48%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" alt="AI Chatbot Assistant" src="https://github.com/user-attachments/assets/e9b1ef97-7393-4ec8-a179-1888c82a528a" />
     </div>
   </div>
 
@@ -83,8 +82,8 @@
   <hr/>
 
   <h2>Tech Stack</h2>
-  <table border="1" cellspacing="0" cellpadding="8">
-    <tr><th>Layer</th><th>Technologies Used</th></tr>
+  <table border="1" cellspacing="0" cellpadding="8" style="width: 100%; border-collapse: collapse;">
+    <tr style="background-color: #f2f2f2;"><th>Layer</th><th>Technologies Used</th></tr>
     <tr><td><strong>Frontend</strong></td><td>React, Material-UI, Bootstrap (for grid layout)</td></tr>
     <tr><td><strong>AI / Generation</strong></td><td>Google Gemini API (or other large language models)</td></tr>
     <tr><td><strong>Text & Document Processing</strong></td><td>OCR libraries (e.g., Tesseract.js), NLP libraries</td></tr>
@@ -109,16 +108,16 @@
   <ol>
     <li>
       <strong>Clone the repository:</strong>
-      <pre><code>git clone https://github.com/your-username/ai-career-mentor.git
+      <pre><code style="background-color: #f2f2f2; padding: 5px; border-radius: 4px; display: block;">git clone https://github.com/your-username/ai-career-mentor.git
 cd ai-career-mentor</code></pre>
     </li>
     <li>
       <strong>Install dependencies:</strong>
-      <pre><code>npm install</code></pre>
+      <pre><code style="background-color: #f2f2f2; padding: 5px; border-radius: 4px; display: block;">npm install</code></pre>
     </li>
     <li>
         <strong>Set up PDF Worker (for Resume Analyzer):</strong>
-        <pre><code># On Mac/Linux or Git Bash
+        <pre><code style="background-color: #f2f2f2; padding: 5px; border-radius: 4px; display: block;"># On Mac/Linux or Git Bash
 cp ./node_modules/pdfjs-dist/build/pdf.worker.mjs ./public/
 
 # On Windows CMD
@@ -127,7 +126,7 @@ copy .\\node_modules\\pdfjs-dist\\build\\pdf.worker.mjs .\\public\\
     </li>
     <li>
       <strong>Run the application:</strong>
-      <pre><code>npm start</code></pre>
+      <pre><code style="background-color: #f2f2f2; padding: 5px; border-radius: 4px; display: block;">npm start</code></pre>
       <p>The application will be available at <code>http://localhost:3000</code>.</p>
     </li>
   </ol>
