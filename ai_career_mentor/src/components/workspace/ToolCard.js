@@ -70,6 +70,7 @@ const ToolCard = ({ icon, title, description, buttonText }) => {
                             bgcolor: 'primary.main',
                             color: 'primary.contrastText',
                         },
+                        border: 1.3,
                     }}
                 >
                     {buttonText}
