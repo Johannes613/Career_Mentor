@@ -35,7 +35,7 @@ const RoadmapGeneratorPage = () => {
             {/* --- MAIN TWO-COLUMN LAYOUT (Bootstrap Row) --- */}
             <div className="row g-4">
                 {/* --- LEFT PANEL (Info & Inputs) --- */}
-                <div className="col-12 col-md-4">
+                <div className="col-12 col-lg-6 col-xl-4">
                     <div className="vstack gap-4">
                         <InfoPanel 
                             title={infoPanelData.title}
@@ -52,7 +52,7 @@ const RoadmapGeneratorPage = () => {
                 </div>
 
                 {/* --- RIGHT PANEL (Roadmap Display) --- */}
-                <div className="col-12 col-md-8 d-flex">
+                <div className="col-12 col-lg-6 col-xl-8 d-flex">
                     <RoadmapDisplay 
                         nodes={roadmapData?.nodes || []} 
                         edges={roadmapData?.edges || []}

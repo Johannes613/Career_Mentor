@@ -1,13 +1,11 @@
-import React from 'react';
-import { Paper, Typography, Button, useTheme } from '@mui/material';
-import { lighten } from '@mui/material/styles';
+import React from "react";
+import { Paper, Typography, Button, useTheme } from "@mui/material";
+import { lighten } from "@mui/material/styles";
 
 const HeroSection = () => {
   const theme = useTheme();
-
-  // Blackish gradient using grey[900] as base
-  const gradientStartColor = theme.palette.grey[900]; // Very dark gray (blackish)
-  const gradientEndColor = lighten(gradientStartColor, 0.3); // Slightly lighter tone for gradient effect
+  const gradientStartColor = theme.palette.grey[900];
+  const gradientEndColor = lighten(gradientStartColor, 0.3);
 
   return (
     <Paper
@@ -15,27 +13,31 @@ const HeroSection = () => {
       sx={{
         p: { xs: 3, sm: 4 },
         borderRadius: 3,
-        color: theme.palette.common.white, // White text on dark background
+        color: theme.palette.common.white,
         background: `linear-gradient(90deg, ${gradientStartColor} 35%, ${gradientEndColor} 100%)`,
-        transition: 'background 0.3s ease-in-out',
+        transition: "background 0.3s ease-in-out",
       }}
     >
       <Typography variant="h4" component="h1" fontWeight="bold">
         AI Career Coach Agent
       </Typography>
-      <Typography sx={{ my: 1, maxWidth: '750px', opacity: 0.9 }}>
-        Smarter career decisions start here — get tailored advice, real-time market insights, and a roadmap built just for you with the power of AI.
+      <Typography sx={{ my: 1, maxWidth: "750px", opacity: 0.9 }}>
+        Smarter career decisions start here — get tailored advice, real-time
+        market insights, and a roadmap built just for you with the power of AI.
       </Typography>
       <Button
-        variant="contained"
+        variant="outlined"
         size="large"
         sx={{
           mt: 2,
-          bgcolor: theme.palette.primary.main,
-          color: theme.palette.primary.contrastText,
-          '&:hover': {
-            bgcolor: theme.palette.mode === 'light' ? theme.palette.grey[800] : theme.palette.grey[200],
-            color: theme.palette.mode === 'light' ? '#fff' : '#000',
+          color: theme.palette.common.white,
+          fontWeight: "bold",
+          padding: "7px 24px",
+          border: `1px solid ${theme.palette.common.white}`,
+          "&:hover": {
+            bgcolor: theme.palette.common.white,
+            color: theme.palette.common.black,
+            border: `1px solid ${theme.palette.common.white}`,
           },
         }}
       >

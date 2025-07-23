@@ -60,21 +60,21 @@ const ToolCard = ({ icon, title, description, buttonText }) => {
         </Typography>
       </CardContent>
       <Box sx={{ p: 2, pt: 0 }}>
-         <Button 
-                    fullWidth 
-                    variant="outlined" 
-                    color="primary"
-                    sx={{
-                        // On hover, fill the background and use the contrast text color
-                        '&:hover': {
-                            bgcolor: 'primary.main',
-                            color: 'primary.contrastText',
-                        },
-                        border: 1.3,
-                    }}
-                >
-                    {buttonText}
-                </Button>
+        <Button
+          fullWidth
+          variant="outlined"
+          color="primary"
+          sx={{
+            // On hover, fill the background and use the contrast text color
+            "&:hover": {
+              bgcolor: "primary.main",
+              color: "primary.contrastText",
+            },
+            border: 1.3,
+          }}
+        >
+          {buttonText}
+        </Button>
       </Box>
     </Card>
   );
