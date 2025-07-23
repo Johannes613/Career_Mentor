@@ -1,6 +1,6 @@
 import React from "react";
 import { Paper, Typography, Button, useTheme } from "@mui/material";
-import { lighten } from "@mui/material/styles";
+import { alpha, lighten } from "@mui/material/styles";
 
 const HeroSection = () => {
   const theme = useTheme();
@@ -22,7 +22,7 @@ const HeroSection = () => {
         AI Career Coach Agent
       </Typography>
       <Typography sx={{ my: 1, maxWidth: "750px", opacity: 0.9 }}>
-        Smarter career decisions start here — get tailored advice, real-time
+        Smarter career decisions start here and get tailored advice, real-time
         market insights, and a roadmap built just for you with the power of AI.
       </Typography>
       <Button
@@ -33,7 +33,7 @@ const HeroSection = () => {
           color: theme.palette.common.white,
           fontWeight: "bold",
           padding: "7px 24px",
-          border: `1px solid ${theme.palette.common.white}`,
+          border: `1px solid ${alpha(theme.palette.common.white, 0.8)}`,
           "&:hover": {
             bgcolor: theme.palette.common.white,
             color: theme.palette.common.black,

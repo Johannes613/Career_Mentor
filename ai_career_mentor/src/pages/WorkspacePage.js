@@ -39,7 +39,7 @@ const WorkspacePage = () => {
         <div className="col-12">
             <div className="row g-4">
                 {tools.map((tool, index) => (
-                    <div key={index} className="col-12 col-md-6 col-lg-3 d-flex">
+                    <div key={index} className="col-12 col-lg-6 col-xl-3 d-flex">
                         <ToolCard {...tool} />
                     </div>
                 ))}

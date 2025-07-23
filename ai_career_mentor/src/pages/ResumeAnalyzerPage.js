@@ -82,7 +82,7 @@ const ResumeAnalyzerPage = () => {
                     <Typography variant="h5" component="h2" fontWeight="bold">Key Features</Typography>
                 </div>
                 {features.map(feature => (
-                     <div className="col-12 col-md-4 d-flex" key={feature.title}>
+                     <div className="col-12 col-lg-6 col-xl-4 mb-3 d-flex" key={feature.title}>
                         <FeatureCard {...feature} />
                     </div>
                 ))}
