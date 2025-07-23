@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
     const login = (role) => {
         const userData = role === 'admin' 
             ? { name: 'Onam Sarker', role: 'admin' }
-            : { name: 'Felecia', role: 'student' };
+            : { name: 'Yohannis', role: 'student' };
         setUser(userData);
     };
 

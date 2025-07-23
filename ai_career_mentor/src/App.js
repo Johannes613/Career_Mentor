@@ -74,3 +74,13 @@ const Main = () => {
 };
 
 export default App;
+
+
+// <div className="col-12 mb-3">
+//                     <Typography variant="h5" component="h2" fontWeight="bold">Key Features</Typography>
+//                 </div>
+//                 {features.map(feature => (
+//                      <div className="col-12 col-lg-6 col-xl-4 mb-3 d-flex" key={feature.title}>
+//                         <FeatureCard {...feature} />
+//                     </div>
+//                 ))}

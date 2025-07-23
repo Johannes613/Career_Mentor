@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
-import { Typography } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Typography, Dialog, DialogContent, Button } from '@mui/material';
+import { RefreshCw } from 'lucide-react';
+
+// Import all necessary components
 import ResumeUpload from '../components/analyzer/ResumeUpload';
+import HowItWorksStepper from '../components/analyzer/HowItWorksStepper';
 import FeatureCard from '../components/analyzer/FeatureCard';
-// NEW: Import the new stepper component
-import HowItWorksStepper from '../components/analyzer/HowItWorksStepper'; 
+import AnalysisStatusPanel from '../components/analyzer/AnalysisStatusPanel';
+import OverallScoreCard from '../components/analyzer/OverallScoreCard';
+import ScoreBreakdownCard from '../components/analyzer/ScoreBreakdownCard';
+import ResumePreview from '../components/analyzer/ResumePreview';
+import ImprovementTips from '../components/analyzer/ImprovementTips';
 import AnalysisHistoryTable from '../components/analyzer/AnalysisHistoryTable';
+import { analysisData, historyData } from '../components/analyzer/analysisData';
 
 // Import icons for features
 import { ScanLine, Target, Key } from 'lucide-react';
 
-// Mock data for the components
 const features = [
     { icon: <ScanLine />, title: 'Keyword Optimization', description: 'Ensure your resume passes through automated filters by matching keywords from job descriptions.' },
     { icon: <Target />, title: 'Skill Gap Analysis', description: 'Identify critical skills you are missing for your target roles and get recommendations.' },
@@ -22,81 +29,123 @@ const steps = [
     { number: 3, title: 'Get Your Score', description: 'Receive a comprehensive report and actionable feedback.' },
 ];
 
-const history = [
-    { id: 1, fileName: 'Software_Engineer_Resume_v4.pdf', score: 88, status: 'Completed', date: 'July 22, 2025' },
-    { id: 2, fileName: 'Product_Manager_CV_final.docx', score: 76, status: 'Completed', date: 'July 19, 2025' },
-    { id: 3, fileName: 'Data_Analyst_Resume.pdf', score: 92, status: 'Completed', date: 'July 15, 2025' },
-];
-
-
 const ResumeAnalyzerPage = () => {
-    // State to track the current step of the analysis process
-    const [currentStep, setCurrentStep] = useState(1);
+    const [currentStep, setCurrentStep] = useState(0); // 0: initial, 1: uploaded, 2: analyzing, 3: complete
+    const [analysisResult, setAnalysisResult] = useState(null);
+    const [uploadedFile, setUploadedFile] = useState(null); 
     
-    // This function will be passed to the upload component to trigger the simulation
-    const handleAnalysisStart = () => {
-        // Reset to step 1 when a new analysis starts
+    const handleAnalysisStart = (file) => {
+        setUploadedFile(file); 
+        setAnalysisResult(null);
         setCurrentStep(1);
-
-        // Simulate the analysis process
-        setTimeout(() => setCurrentStep(2), 1500); // Move to step 2 after 1.5s
-        setTimeout(() => setCurrentStep(3), 3000); // Move to step 3 after 3s
     };
+
+    useEffect(() => {
+        if (currentStep === 1) { // File uploaded
+            setTimeout(() => setCurrentStep(2), 1500); // Start analysis
+        } else if (currentStep === 2) { // AI is "analyzing"
+            setTimeout(() => setCurrentStep(3), 2000); // Complete analysis
+        } else if (currentStep === 3) { // Analysis complete
+            setAnalysisResult(analysisData);
+        }
+    }, [currentStep]);
+    
+    const handleReanalyze = () => {
+        setCurrentStep(0);
+        setAnalysisResult(null);
+        setUploadedFile(null);
+    };
+    
+    const isAnalyzing = currentStep === 1 || currentStep === 2;
 
     return (
         <div className="container-fluid">
             {/* --- HEADER SECTION --- */}
             <div className="row mb-4">
-                <div className="col-12 text-center">
-                    {/* Heading font size reduced from h3 to h4 */}
-                    <Typography variant="h4" component="h1" fontWeight="bold">Resume Analyzer</Typography>
-                    <Typography variant="h6" color="text.secondary" sx={{ mt: 1 }}>
-                        Get an instant, data-driven analysis of your resume to land your dream job.
-                    </Typography>
-                </div>
-            </div>
-
-            {/* --- UPLOAD SECTION --- */}
-            <div className="row mb-5">
-                <div className="col-12">
-                    {/* Pass the simulation trigger function to the upload component */}
-                    <ResumeUpload onAnalysisStart={handleAnalysisStart} />
-                </div>
-            </div>
-
-            {/* --- HOW IT WORKS SECTION --- */}
-            <div className="row mb-5 pt-3">
-                <div className="col-12 mb-3">
-                    {/* Heading font size reduced from h4 to h5 */}
-                    <Typography variant="h5" component="h2" fontWeight="bold">How It Works</Typography>
-                </div>
-                <div className="col-12">
-                   {/* The old mapped steps are replaced by the new single stepper component */}
-                   <HowItWorksStepper steps={steps} activeStep={currentStep} />
-                </div>
-            </div>
-
-            {/* --- KEY FEATURES SECTION --- */}
-            <div className="row mb-5 pt-2">
-                 <div className="col-12 mb-3">
-                    <Typography variant="h5" component="h2" fontWeight="bold">Key Features</Typography>
-                </div>
-                {features.map(feature => (
-                     <div className="col-12 col-lg-6 col-xl-4 mb-3 d-flex" key={feature.title}>
-                        <FeatureCard {...feature} />
+                <div className="col-12 d-flex justify-content-between align-items-center">
+                    <div>
+                        <Typography variant="h4" component="h1" fontWeight="bold">AI Resume Analyzer</Typography>
+                        <Typography variant="h6" color="text.secondary" sx={{ mt: 1 }}>
+                            Get an instant, data-driven analysis to land your dream job.
+                        </Typography>
                     </div>
-                ))}
+                    {analysisResult && (
+                        <Button variant="outlined" startIcon={<RefreshCw size={16} />} onClick={handleReanalyze}>
+                            Analyze New Resume
+                        </Button>
+                    )}
+                </div>
             </div>
+
+            {/* Conditionally render Upload or Results view */}
+            {analysisResult ? (
+                // --- RESULTS VIEW ---
+                <div className="row g-3">
+                    <div className="col-12 col-lg-7">
+                        <div className="vstack gap-3">
+                            <OverallScoreCard {...analysisResult} />
+                            <div className="row g-3">
+                                {analysisResult.breakdown.map((item, index) => (
+                                    <div className="col-12 col-md-6" key={index}><ScoreBreakdownCard {...item} /></div>
+                                ))}
+                            </div>
+                            <ImprovementTips tips={analysisResult.tips} />
+                        </div>
+                    </div>
+                    <div className="col-12 col-lg-5">
+                        <ResumePreview file={uploadedFile} />
+                    </div>
+                </div>
+            ) : (
+                // --- UPLOAD VIEW ---
+                <>
+                    <div className="row mb-5">
+                        <div className="col-12 col-lg-10 mx-auto">
+                            <ResumeUpload onAnalysisStart={handleAnalysisStart} isLoading={isAnalyzing} />
+                        </div>
+                    </div>
+                        <div className="row mb-5">
+                            <div className="col-12 mb-3">
+                                <Typography variant="h5" component="h2" fontWeight="bold">Analysis Progress</Typography>
+                            </div>
+                            <div className="col-12">
+                                <HowItWorksStepper steps={steps} activeStep={currentStep} />
+                            </div>
+                        </div>
+                    {currentStep === 0 && (
+                         <div className="row mb-5">
+                             <div className="col-12 mb-3"><Typography variant="h5" component="h2" fontWeight="bold">Key Features</Typography></div>
+                            {features.map(feature => (
+                                 <div className="col-12 col-md-4 d-flex" key={feature.title}><FeatureCard {...feature} /></div>
+                            ))}
+                        </div>
+                    )}
+                </>
+            )}
             
-            {/* --- HISTORY SECTION --- */}
-            <div className="row">
-                 <div className="col-12 mb-3">
+            {/* --- HISTORY SECTION (Always visible) --- */}
+            <div className="row mt-5">
+                <div className="col-12 mb-3">
                     <Typography variant="h5" component="h2" fontWeight="bold">Recent Analyses</Typography>
                 </div>
                 <div className="col-12">
-                    <AnalysisHistoryTable history={history} />
+                    <AnalysisHistoryTable history={historyData} />
                 </div>
             </div>
+
+            {/* --- Analysis In-Progress Modal --- */}
+            <Dialog open={isAnalyzing} fullWidth maxWidth="lg">
+                <DialogContent sx={{ p: 0, bgcolor: 'background.default', height: '90vh' }}>
+                    <div className="row g-0 h-100">
+                        <div className="col-12 col-md-8 p-3 h-100">
+                            <ResumePreview file={uploadedFile} isModalVersion={true} />
+                        </div>
+                        <div className="col-12 col-md-4 p-3" style={{ backgroundColor: 'var(--bs-body-bg)' }}>
+                            <AnalysisStatusPanel fileName={uploadedFile?.name || ''} />
+                        </div>
+                    </div>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 };
