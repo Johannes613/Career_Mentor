@@ -84,9 +84,9 @@
   <h2>Tech Stack</h2>
   <table border="1" cellspacing="0" cellpadding="8" style="width: 100%; border-collapse: collapse;">
     <tr style="background-color: #f2f2f2;"><th>Layer</th><th>Technologies Used</th></tr>
-    <tr><td><strong>Frontend</strong></td><td>React, Material-UI, Bootstrap (for grid layout)</td></tr>
-    <tr><td><strong>AI / Generation</strong></td><td>Google Gemini API (or other large language models)</td></tr>
-    <tr><td><strong>Text & Document Processing</strong></td><td>OCR libraries (e.g., Tesseract.js), NLP libraries</td></tr>
+    <tr><td><strong>Frontend</strong></td><td>React, Material-UI, Bootstrap </td></tr>
+    <tr><td><strong>AI / Generation</strong></td><td>Google Gemini API </td></tr>
+    <tr><td><strong>Text & Document Processing</strong></td><td>OCR libraries (Tesseract.js), NLP libraries</td></tr>
     <tr><td><strong>Charts & Visualizations</strong></td><td>Recharts, React Flow</td></tr>
     <tr><td><strong>PDF Rendering</strong></td><td>React-PDF</td></tr>
     <tr><td><strong>UI/UX</strong></td><td>Lucide React (Icons), Figma (Prototyping)</td></tr>
