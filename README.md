@@ -13,7 +13,7 @@
 
   <h2>Live Preview & Screenshots</h2>
 
-  <p><em>(You can add your deployment link here once it's live)</em></p>
+  <p><em>Deployed Site: https://ai-career-mentor.vercel.app/</em></p>
   
   <h3>Screenshots</h3>
   <div style="text-align: center;">
@@ -127,7 +127,7 @@ copy .\\node_modules\\pdfjs-dist\\build\\pdf.worker.mjs .\\public\\
     <li>
       <strong>Run the application:</strong>
       <pre><code style="background-color: #f2f2f2; padding: 5px; border-radius: 4px; display: block;">npm start</code></pre>
-      <p>The application will be available at <code>http://localhost:3000</code>.</p>
+      <p>The application will be available at http://localhost:3000](https://ai-career-mentor.vercel.app/</p>
     </li>
   </ol>
 
