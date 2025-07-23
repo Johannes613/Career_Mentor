@@ -13,7 +13,7 @@
 
   <h2>Live Preview & Screenshots</h2>
 
-  <p><em>Deployed Site: https://ai-career-mentor.vercel.app/</em></p>
+  <p><em>Deployed Site: <a href="https://ai-career-mentor.vercel.app/" target="_blank">https://ai-career-mentor.vercel.app/</a></em></p>
   
   <h3>Preview</h3>
  <img src="https://github.com/user-attachments/assets/20c024ed-8554-44e1-aa1f-fb950bde9752" alt="Preview GIF" style="max-width: 100%; height: auto;" />
@@ -113,7 +113,7 @@ copy .\\node_modules\\pdfjs-dist\\build\\pdf.worker.mjs .\\public\\
     <li>
       <strong>Run the application:</strong>
       <pre><code style="background-color: #f2f2f2; padding: 5px; border-radius: 4px; display: block;">npm start</code></pre>
-      <p>The application will be available at http://localhost:3000](https://ai-career-mentor.vercel.app/</p>
+      <p>The application will be available at https://ai-career-mentor.vercel.app/</p>
     </li>
   </ol>
 
