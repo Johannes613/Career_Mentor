@@ -11,11 +11,11 @@
 
   <hr/>
 
-  <h2>Live Preview & Screenshots</h2>
+  <h2>Live Preview</h2>
 
   <p><em>Deployed Site: <a href="https://ai-career-mentor.vercel.app/" target="_blank">https://ai-career-mentor.vercel.app/</a></em></p>
   
-  <h3>Preview</h3>
+  <h3>Demo</h3>
  <img src="https://github.com/user-attachments/assets/20c024ed-8554-44e1-aa1f-fb950bde9752" alt="Preview GIF" style="max-width: 100%; height: auto;" />
 
   
