@@ -1,30 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
-  AppBar, Toolbar, Typography, Button, Box, IconButton, useTheme, Drawer, List, ListItem, ListItemText, Divider, ListItemButton
-} from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import LightModeIcon from '@mui/icons-material/LightMode';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-import { Link as ScrollLink } from 'react-scroll';
-import { Link as RouterLink } from 'react-router-dom'; // Import Link for routing
-import { Bot } from 'lucide-react';
-import { useThemeContext } from '../../contexts/ThemeContext';
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Box,
+  IconButton,
+  useTheme,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+  ListItemButton,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import { Link as ScrollLink } from "react-scroll";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Bot } from "lucide-react";
+import { useThemeContext } from "../../contexts/ThemeContext";
+import { useAuth } from "../../contexts/AuthContext"; // Import the useAuth hook
 
-// FIX: The onNavigateToLogin prop is no longer needed
 const TopBar = () => {
   const { mode, toggleTheme } = useThemeContext();
+  const { user, logout } = useAuth(); // Get user and logout function from context
+  const navigate = useNavigate();
   const theme = useTheme();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const navLinks = [
-    { title: 'Features', to: 'features' },
-    { title: 'About', to: 'about' },
-    { title: 'Demo', to: 'video' },
-    { title: 'FAQ', to: 'faq' },
-    
+    { title: "Features", to: "features" },
+    { title: "About", to: "about" },
+    { title: "Demo", to: "video" },
+    { title: "FAQ", to: "faq" },
+    { title: "Contact", to: "footer" },
   ];
 
   const toggleDrawer = (open) => () => setDrawerOpen(open);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/");
+    } catch (error) {
+      console.error("Failed to log out", error);
+    }
+  };
 
   return (
     <>
@@ -32,19 +55,28 @@ const TopBar = () => {
         position="sticky"
         elevation={2}
         sx={{
-          bgcolor: 'black',
-          color: 'white',
+          bgcolor: "black",
+          color: "white",
         }}
       >
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
+        <Toolbar sx={{ justifyContent: "space-between" }}>
           {/* Logo */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer' }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+              cursor: "pointer",
+            }}
+          >
             <Bot size={28} />
-            <Typography variant="h6" fontWeight="bold">CareerMentor</Typography>
+            <Typography variant="h6" fontWeight="bold">
+              CareerMentorAI
+            </Typography>
           </Box>
 
           {/* Desktop Nav Links */}
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2 }}>
+          <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
             {navLinks.map((link) => (
               <ScrollLink
                 key={link.title}
@@ -52,16 +84,16 @@ const TopBar = () => {
                 smooth
                 duration={500}
                 offset={-70}
-                style={{ cursor: 'pointer' }}
+                style={{ cursor: "pointer" }}
               >
                 <Button
                   color="inherit"
                   sx={{
-                    color: 'rgba(255, 255, 255, 0.89)',
+                    color: "rgba(255, 255, 255, 0.88)",
                     fontWeight: 500,
-                    '&:hover': {
-                      backgroundColor: 'rgba(255,255,255,0.08)',
-                      color: 'white',
+                    "&:hover": {
+                      backgroundColor: "rgba(255,255,255,0.08)",
+                      color: "white",
                     },
                   }}
                 >
@@ -70,56 +102,79 @@ const TopBar = () => {
               </ScrollLink>
             ))}
           </Box>
-
-          {/* Action Buttons (Desktop) */}
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: 1 }}>
-            <IconButton onClick={toggleTheme} color="inherit" title="Toggle theme">
-              {mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
+            <IconButton
+              onClick={toggleTheme}
+              color="inherit"
+              title="Toggle theme"
+            >
+              {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
             </IconButton>
-            {/* FIX: Use RouterLink for navigation */}
             <Button
               component={RouterLink}
-              to="/login"
+              to="/dashboard"
               variant="outlined"
               color="inherit"
-              sx={{
-                borderColor: 'rgba(255,255,255,0.5)',
-                '&:hover': {
-                  borderColor: 'white',
-                  backgroundColor: 'rgba(255,255,255,0.1)',
-                },
-              }}
             >
-              Sign In
+              Dashboard
             </Button>
-            <Button
-              component={RouterLink}
-              to="/login"
-              variant="contained"
-              sx={{
-                bgcolor: 'white',
-                color: 'black',
-                '&:hover': {
-                  bgcolor: 'grey.200',
-                },
-              }}
-            >
-              Sign Up
-            </Button>
+
+            {user && !user.isGuest ? (
+              <Button
+                variant="contained"
+                sx={{
+                  bgcolor: "white",
+                  color: "black",
+                  marginLeft: 0.5,
+                  "&:hover": {
+                    bgcolor: "grey.200",
+                  },
+                }}
+                onClick={handleLogout}
+              >
+                Logout
+              </Button>
+            ) : (
+              <>
+                <Button
+                  component={RouterLink}
+                  to="/login"
+                  variant="contained"
+                  sx={{
+                    bgcolor: "white",
+                    color: "black",
+                    marginLeft: 0.5,
+                    "&:hover": {
+                      bgcolor: "grey.200",
+                    },
+                  }}
+                >
+                  Sign In
+                </Button>
+              </>
+            )}
           </Box>
 
           {/* Mobile Menu Icon */}
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton onClick={toggleDrawer(true)} color="inherit">
               <MenuIcon />
             </IconButton>
           </Box>
         </Toolbar>
       </AppBar>
-
-      {/* Drawer for Mobile Navigation */}
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
-        <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
+        <Box
+          sx={{ width: 250, bgcolor: "background.default", height: "100%" }}
+          role="presentation"
+          onClick={toggleDrawer(false)}
+        >
           <List>
             <ListItem>
               <Typography variant="h6" fontWeight="bold">
@@ -142,13 +197,20 @@ const TopBar = () => {
             ))}
             <Divider />
             <ListItemButton onClick={toggleTheme}>
-              <ListItemText primary={mode === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'} />
-              {mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
+              <ListItemText
+                primary={mode === "dark" ? "Light Mode" : "Dark Mode"}
+              />
+              {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
             </ListItemButton>
-            {/* FIX: Use RouterLink for navigation in the drawer */}
-            <ListItemButton component={RouterLink} to="/login">
-              <ListItemText primary="Sign In / Sign Up" />
-            </ListItemButton>
+            {user && !user.isGuest ? (
+              <ListItemButton onClick={handleLogout}>
+                <ListItemText primary="Logout" />
+              </ListItemButton>
+            ) : (
+              <ListItemButton component={RouterLink} to="/login">
+                <ListItemText primary="Sign In / Sign Up" />
+              </ListItemButton>
+            )}
           </List>
         </Box>
       </Drawer>

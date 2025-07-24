@@ -20,7 +20,7 @@ const HeroSection = () => {
                 position: 'relative',
                 backgroundImage: `url(${HeroImage})`,
                 backgroundSize: 'cover',
-                backgroundPosition: 'center',
+                backgroundPosition: 'top',
             }}
         >
             {/* Dark overlay for text contrast */}

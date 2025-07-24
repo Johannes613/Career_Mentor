@@ -15,6 +15,7 @@ const Footer = () => {
 
     return (
         <Box
+        id='footer'
             component="footer"
             sx={{
                 // Use the theme's primary color for the background
@@ -42,7 +43,7 @@ const Footer = () => {
                                     href={link.href}
                                     target="_blank"
                                     sx={{ 
-                                        color: 'primary.contrastText', 
+                                        color: 'white', 
                                         backgroundColor: 'rgba(255,255,255,0.1)', 
                                         '&:hover': { backgroundColor: 'rgba(255,255,255,0.2)' } 
                                     }}

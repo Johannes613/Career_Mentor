@@ -1,29 +1,68 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
+import { 
+    auth, 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword,
+    signInWithPopup,
+    googleProvider,
+    signOut,
+    onAuthStateChanged
+} from '../config/firebase';
 
 const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-    // FIX: The initial user is now a default "Guest" object instead of null.
-    const [user, setUser] = useState({ name: 'Guest', role: 'student' });
-    
-    // The login and logout functions are no longer needed for this flow,
-    // but are kept here as placeholders if you want to add auth back later.
-    const login = (role) => {
-        const userData = role === 'admin' 
-            ? { name: 'Admin User', role: 'admin' }
-            : { name: 'Felecia', role: 'student' };
-        setUser(userData);
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            if (currentUser) {
+                // If a user is logged in, set them as the user
+                setUser(currentUser);
+            } else {
+                // If no user is logged in, create a default guest user object
+                setUser({
+                    displayName: 'Guest',
+                    isGuest: true // Add a flag to identify guest users
+                });
+            }
+            setLoading(false);
+        });
+
+        return () => unsubscribe();
+    }, []);
+
+    const signUp = (email, password) => {
+        return createUserWithEmailAndPassword(auth, email, password);
+    };
+
+    const login = (email, password) => {
+        return signInWithEmailAndPassword(auth, email, password);
+    };
+
+    const loginWithGoogle = () => {
+        return signInWithPopup(auth, googleProvider);
     };
 
     const logout = () => {
-        // In a real app, you might want to clear the user state.
-        // For now, it does nothing.
+        // This will sign out the Firebase user, and the listener above
+        // will automatically set the user back to the guest object.
+        return signOut(auth);
+    };
+
+    const value = {
+        user,
+        signUp,
+        login,
+        loginWithGoogle,
+        logout
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout }}>
-            {children}
+        <AuthContext.Provider value={value}>
+            {!loading && children}
         </AuthContext.Provider>
     );
 };

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation, Link } from "react-router-dom";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import { AuthProvider } from "./contexts/AuthContext";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
 
 // Import all pages
 import LandingPage from "./pages/LandingPage";
@@ -23,48 +23,33 @@ import {
   FolderKanban,
 } from "lucide-react";
 
-// This is the main application view with the sidebar and content
-const MainApp = () => {
-    const [activePage, setActivePage] = useState("dashboard");
+const AuthenticatedApp = () => {
+    const location = useLocation();
+    const activePageId = location.pathname.split('/').pop() || 'dashboard';
+    
 
     const navItems = [
-        { id: "dashboard", text: "Dashboard", icon: <LayoutDashboard /> },
-        { id: "workspace", text: "Workspace", icon: <Briefcase /> },
-        { id: "resume-analyzer", text: "Resume Analyzer", icon: <FileText /> },
-        { id: "cover-letter-generator", text: "Cover Letter", icon: <Mail /> },
-        { id: "roadmap-generator", text: "Career Roadmap", icon: <Milestone /> },
-        { id: "my-documents", text: "My Documents", icon: <FolderKanban /> },
+        { id: "dashboard", text: "Dashboard", icon: <LayoutDashboard />, path: "/dashboard" },
+        { id: "workspace", text: "Workspace", icon: <Briefcase />, path: "/dashboard/workspace" },
+        { id: "resume-analyzer", text: "Resume Analyzer", icon: <FileText />, path: "/dashboard/resume-analyzer" },
+        { id: "cover-letter-generator", text: "Cover Letter", icon: <Mail />, path: "/dashboard/cover-letter-generator" },
+        { id: "roadmap-generator", text: "Career Roadmap", icon: <Milestone />, path: "/dashboard/roadmap-generator" },
+        { id: "my-documents", text: "My Documents", icon: <FolderKanban />, path: "/dashboard/my-documents" },
     ];
 
-    const renderPage = () => {
-        switch (activePage) {
-            case "workspace":
-                return <WorkspacePage onNavItemClick={setActivePage} />;
-            case "resume-analyzer":
-                return <ResumeAnalyzerPage />;
-            case "roadmap-generator":
-                return <RoadmapGeneratorPage />;
-            case "cover-letter-generator":
-                return <CoverLetterGeneratorPage />;
-            case "my-documents":
-                return <MyDocumentsPage />;
-            case "dashboard":
-            default:
-                return <StudentDashboardPage />;
-        }
-    };
-
     return (
-        <AppShell
-            navItems={navItems}
-            activePageId={activePage}
-            onNavItemClick={setActivePage}
-        >
-            {renderPage()}
+        <AppShell navItems={navItems} activePageId={activePageId}>
+            <Routes>
+                <Route index element={<StudentDashboardPage />} />
+                <Route path="workspace" element={<WorkspacePage />} />
+                <Route path="resume-analyzer" element={<ResumeAnalyzerPage />} />
+                <Route path="roadmap-generator" element={<RoadmapGeneratorPage />} />
+                <Route path="cover-letter-generator" element={<CoverLetterGeneratorPage />} />
+                <Route path="my-documents" element={<MyDocumentsPage />} />
+            </Routes>
         </AppShell>
     );
 };
-
 
 function App() {
   return (
@@ -72,12 +57,13 @@ function App() {
       <AuthProvider>
         <BrowserRouter>
           <Routes>
-            {/* The landing page is now the root route */}
             <Route path="/" element={<LandingPage />} />
-            {/* The dashboard is now directly accessible at /dashboard */}
-            <Route path="/dashboard" element={<MainApp />} />
-            {/* You can keep the login page for future use or remove it */}
             <Route path="/login" element={<LoginPage />} />
+            {/* FIX: The dashboard is now the main route and is no longer protected */}
+            <Route 
+                path="/dashboard/*" 
+                element={<AuthenticatedApp />} 
+            />
           </Routes>
         </BrowserRouter>
       </AuthProvider>

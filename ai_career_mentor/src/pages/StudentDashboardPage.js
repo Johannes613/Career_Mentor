@@ -14,7 +14,8 @@ const StudentDashboardPage = () => {
 
   return (
     <>
-      <h5 className="fw-bold mb-1">Welcome back, {user.name}</h5>
+      {/* FIX: Changed user.name to user.displayName to correctly show the name */}
+      <h5 className="fw-bold mb-1">Welcome back, {user?.displayName || 'User'}</h5>
       <p className="text-muted mb-4">
         You've made great progress this week, keep up the excellent work
       </p>

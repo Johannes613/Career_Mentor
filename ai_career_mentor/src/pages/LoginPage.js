@@ -1,43 +1,60 @@
 import React, { useState } from 'react';
-import { Box, Typography, TextField, Button, IconButton, InputAdornment, Link, useTheme } from '@mui/material';
+import { Box, Typography, TextField, Button, IconButton, InputAdornment, Link, useTheme, Divider, Alert } from '@mui/material';
 import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 // Icons
 import { Bot } from 'lucide-react';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import GoogleIcon from '@mui/icons-material/Google';
 
 const LoginPage = () => {
-    const { login } = useAuth();
+    const { signUp, login, loginWithGoogle } = useAuth();
     const theme = useTheme();
+    const navigate = useNavigate();
     
     const [isSignUp, setIsSignUp] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState('');
 
     const handleToggleForm = (event) => {
         event.preventDefault();
+        setError(''); // Clear errors when toggling
         setIsSignUp(prev => !prev);
     };
 
-    const handleClickShowPassword = () => {
-        setShowPassword(prev => !prev);
-    };
-
-    const handleMouseDownPassword = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
+        setError('');
+        const data = new FormData(event.currentTarget);
+        const email = data.get('email');
+        const password = data.get('password');
+
+        try {
+            if (isSignUp) {
+                await signUp(email, password);
+            } else {
+                await login(email, password);
+            }
+            navigate('/dashboard'); // Navigate to dashboard on success
+        } catch (err) {
+            setError(err.message);
+        }
     };
     
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        login('student');
+    const handleGoogleSignIn = async () => {
+        try {
+            await loginWithGoogle();
+            navigate('/dashboard');
+        } catch (err) {
+            setError(err.message);
+        }
     };
 
     return (
-        // Bootstrap's main row container. g-0 removes gutters.
         <div className="row g-0">
-            {/* Left Decorative Panel */}
             <div 
-                // RESPONSIVE FIX: This panel is now col-12 on mobile, and col-sm-4/col-md-5 on larger screens
                 className="col-12 col-md-6 col-lg-5 d-flex"
                 style={{
                     backgroundColor: theme.palette.primary.main,
@@ -58,13 +75,11 @@ const LoginPage = () => {
                 </Typography>
             </div>
 
-            {/* Right Form Panel */}
             <div className="col-12 col-md-6 col-lg-7">
                 <Box
                     sx={{
-                        // RESPONSIVE FIX: Height adjusts for stacking vs side-by-side layout
                         minHeight: { xs: 'auto', sm: '100vh' },
-                        py: { xs: 8, sm: 0 }, // Add vertical padding on mobile
+                        py: { xs: 8, sm: 0 },
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
@@ -81,29 +96,13 @@ const LoginPage = () => {
                             {isSignUp ? 'Get started with your free account.' : 'Sign in to continue.'}
                         </Typography>
 
+                        {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+
                         <Box component="form" noValidate onSubmit={handleSubmit}>
                             {isSignUp && (
-                                <TextField
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    id="name"
-                                    label="Full Name"
-                                    name="name"
-                                    autoComplete="name"
-                                    autoFocus
-                                />
+                                <TextField margin="normal" required fullWidth id="name" label="Full Name" name="name" autoComplete="name" autoFocus />
                             )}
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
-                                autoFocus={!isSignUp}
-                            />
+                            <TextField margin="normal" required fullWidth id="email" label="Email Address" name="email" autoComplete="email" autoFocus={!isSignUp} />
                             <TextField
                                 margin="normal"
                                 required
@@ -116,53 +115,32 @@ const LoginPage = () => {
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={handleClickShowPassword}
-                                                onMouseDown={handleMouseDownPassword}
-                                                edge="end"
-                                            >
+                                            <IconButton onClick={() => setShowPassword(p => !p)} edge="end">
                                                 {showPassword ? <VisibilityOff /> : <Visibility />}
                                             </IconButton>
                                         </InputAdornment>
                                     ),
                                 }}
                             />
-                            {isSignUp && (
-                                <TextField
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    name="confirmPassword"
-                                    label="Confirm Password"
-                                    type={showPassword ? 'text' : 'password'}
-                                    id="confirmPassword"
-                                />
-                            )}
                             
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                size="large"
-                                sx={{ 
-                                    mt: 3, 
-                                    mb: 2,
-                                    bgcolor: 'primary.main',
-                                    color: 'primary.contrastText',
-                                    '&:hover': {
-                                        bgcolor: theme.palette.mode === 'light' ? 'grey.800' : 'grey.200'
-                                    }
-                                }}
-                            >
+                            <Button type="submit" fullWidth variant="contained" size="large" sx={{ mt: 3, mb: 2 }}>
                                 {isSignUp ? 'Sign Up' : 'Sign In'}
                             </Button>
+
+                            <Divider sx={{ my: 2 }}>OR</Divider>
+
+                            <Button
+                                fullWidth
+                                variant="outlined"
+                                startIcon={<GoogleIcon />}
+                                onClick={handleGoogleSignIn}
+                            >
+                                Sign in with Google
+                            </Button>
                             
-                            <div className="d-flex justify-content-end">
+                            <div className="d-flex justify-content-end mt-3">
                                 <Link href="#" variant="body2" onClick={handleToggleForm}>
-                                    {isSignUp
-                                        ? "Already have an account? Sign in"
-                                        : "Don't have an account? Sign Up"}
+                                    {isSignUp ? "Already have an account? Sign in" : "Don't have an account? Sign Up"}
                                 </Link>
                             </div>
                         </Box>

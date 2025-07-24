@@ -34,7 +34,7 @@ const FeaturedOpportunity = () => {
           fontWeight="bold"
           variant={{ xs: "h5", sm: "h4" }}
         >
-          Welcome to CareerMentorAI
+          Welcome to CareerMentor
         </Typography>
         <Typography
           sx={{ my: 1, opacity: 0.9 }}
@@ -81,38 +81,39 @@ const FeaturedOpportunity = () => {
             mt: 2,
           }}
         >
+          {/* --- Primary Button (High Contrast) --- */}
           <Button
-            variant="outlined"
+            variant="contained" // Changed to contained for a solid look
             size="large"
             sx={{
-              mt: 2,
-              color: theme.palette.common.black,
-              bgcolor: theme.palette.common.white,
+              // FIX: Use theme's contrast color for background
+              bgcolor: 'primary.contrastText',
+              // FIX: Use theme's main color for text
+              color: 'primary.main',
               fontWeight: "bold",
               padding: "8px 24px",
-              border: `1px solid ${alpha(theme.palette.common.white, 0.8)}`,
               "&:hover": {
-                bgcolor: theme.palette.common.black,
-                color: theme.palette.common.white,
-                border: `1px solid ${theme.palette.common.white}`,
+                bgcolor: alpha(theme.palette.primary.contrastText, 0.9),
               },
             }}
           >
             Analyze My Resume
           </Button>
+          
+          {/* --- Secondary Button (Outlined) --- */}
           <Button
             variant="outlined"
             size="large"
+            // "inherit" makes the button use the parent's contrastText color
+            color="inherit" 
             sx={{
-              mt: 2,
-              color: theme.palette.common.white,
               fontWeight: "bold",
               padding: "8px 24px",
-              border: `1px solid ${alpha(theme.palette.common.white, 0.8)}`,
+              // FIX: Use alpha on the theme's contrast color for the border
+              borderColor: alpha(theme.palette.primary.contrastText, 0.5),
               "&:hover": {
-                bgcolor: theme.palette.common.white,
-                color: theme.palette.common.black,
-                border: `1px solid ${theme.palette.common.white}`,
+                bgcolor: alpha(theme.palette.primary.contrastText, 0.1),
+                borderColor: 'primary.contrastText',
               },
             }}
           >
