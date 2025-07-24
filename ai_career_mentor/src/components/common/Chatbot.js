@@ -144,7 +144,7 @@ const Chatbot = () => {
                   }}
                 />
                 <Typography variant="caption">
-                  Online • Ready to help
+                  Available • I'm here to help you!
                 </Typography>
               </Box>
             </Box>

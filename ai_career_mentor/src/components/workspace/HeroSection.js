@@ -19,7 +19,7 @@ const HeroSection = () => {
       }}
     >
       <Typography variant="h4" component="h1" fontWeight="bold">
-        AI Career Coach Agent
+        AI Career Mentor
       </Typography>
       <Typography sx={{ my: 1, maxWidth: "750px", opacity: 0.9 }}>
         Smarter career decisions start here and get tailored advice, real-time

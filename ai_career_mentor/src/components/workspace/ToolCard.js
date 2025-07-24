@@ -9,7 +9,8 @@ import {
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 
-const ToolCard = ({ icon, title, description, buttonText }) => {
+// The component now accepts an 'onClick' prop
+const ToolCard = ({ icon, title, description, buttonText, onClick }) => {
   const theme = useTheme();
 
   return (
@@ -20,15 +21,12 @@ const ToolCard = ({ icon, title, description, buttonText }) => {
         height: "100%",
         borderRadius: 4,
         padding: 1,
-
         display: "flex",
         flexDirection: "column",
         border: `1px solid ${theme.palette.divider}`,
-        // --- NEW: Added transition for a smooth hover effect ---
         transition: theme.transitions.create(["box-shadow", "transform"], {
           duration: theme.transitions.duration.short,
         }),
-        // --- NEW: On hover, the card will lift up slightly ---
         "&:hover": {
           transform: "translateY(-4px)",
           boxShadow: theme.shadows[4],
@@ -36,7 +34,6 @@ const ToolCard = ({ icon, title, description, buttonText }) => {
       }}
     >
       <CardContent sx={{ flexGrow: 1 }}>
-        {/* --- NEW: Styled container for the icon --- */}
         <Box
           sx={{
             width: 48,
@@ -64,13 +61,14 @@ const ToolCard = ({ icon, title, description, buttonText }) => {
           fullWidth
           variant="outlined"
           color="primary"
+          // The onClick prop is passed to the Button
+          onClick={onClick}
           sx={{
-            // On hover, fill the background and use the contrast text color
             "&:hover": {
               bgcolor: "primary.main",
               color: "primary.contrastText",
             },
-            border: 1.3,
+            borderWidth: '1.3px',
           }}
         >
           {buttonText}

@@ -1,36 +1,30 @@
 import React from 'react';
 import HeroSection from '../components/workspace/HeroSection';
 import ToolCard from '../components/workspace/ToolCard';
-import HistoryItem from '../components/workspace/HistoryItem'; // Make sure this is the redesigned version
-
+import HistoryItem from '../components/workspace/HistoryItem';
 import { MessageSquare, FileText, Milestone, Mail } from 'lucide-react';
 
+// Added an 'id' to each tool that matches the navigation ID in App.js
 const tools = [
-  { icon: <MessageSquare />, title: 'AI Career Q&A Chat', description: 'Ask career questions', buttonText: 'Ask Now' },
-  { icon: <FileText />, title: 'AI Resume Analyzer', description: 'Improve your resume', buttonText: 'Analyze Now' },
-  { icon: <Milestone />, title: 'Career Roadmap Generator', description: 'Build your roadmap', buttonText: 'Generate Now' },
-  { icon: <Mail />, title: 'Cover Letter Generator', description: 'Write a cover letter', buttonText: 'Create Now' },
+  { id: 'chatbot', icon: <MessageSquare />, title: 'AI Career Q&A Chat', description: 'Ask career questions', buttonText: 'Ask Now' },
+  { id: 'resume-analyzer', icon: <FileText />, title: 'AI Resume Analyzer', description: 'Improve your resume', buttonText: 'Analyze Now' },
+  { id: 'cover-letter-generator', icon: <Mail />, title: 'Cover Letter Generator', description: 'Write a cover letter', buttonText: 'Create Now' },
+  { id: 'roadmap-generator', icon: <Milestone />, title: 'Career Roadmap Generator', description: 'Build your roadmap', buttonText: 'Generate Now' },
 ];
 
-// Updated and expanded history data
 const history = [
     { id: 1, icon: <FileText />, toolName: 'AI Resume Analysis', timestamp: 'Jul 21 2025 14:30:15 GMT+0400', status: 'Completed' },
     { id: 2, icon: <Mail />, toolName: 'Cover Letter for "Software Engineer"', timestamp: 'Jul 20 2025 11:22:05 GMT+0400', status: 'Completed' },
-    { id: 3, icon: <Milestone />, toolName: 'Career Roadmap Generation', timestamp: 'Jul 19 2025 09:45:50 GMT+0400', status: 'In Progress' },
-    { id: 5, icon: <Mail />, toolName: 'Cover Letter for "Data Analyst"', timestamp: 'Jul 17 2025 10:05:18 GMT+0400', status: 'Failed' },
 ];
 
-const WorkspacePage = () => {
+// The component now accepts the 'onNavItemClick' function as a prop
+const WorkspacePage = ({ onNavItemClick }) => {
   return (
     <div className="container-fluid">
-      {/* --- THIS SECTION IS UNTOUCHED --- */}
       <div className="row mb-5">
-        <div className="col-12">
-          <HeroSection />
-        </div>
+        <div className="col-12"><HeroSection /></div>
       </div>
 
-      {/* --- THIS SECTION IS UNTOUCHED --- */}
       <div className="row mb-5">
         <div className="col-12">
           <h2 className="fw-bold">Available AI Tools</h2>
@@ -38,23 +32,21 @@ const WorkspacePage = () => {
         </div>
         <div className="col-12">
             <div className="row g-4">
-                {tools.map((tool, index) => (
-                    <div key={index} className="col-12 col-lg-6 col-xl-3 d-flex">
-                        <ToolCard {...tool} />
+                {tools.map((tool) => (
+                    <div key={tool.id} className="col-12 col-md-6 col-lg-3 d-flex">
+                        <ToolCard {...tool} onClick={() => onNavItemClick(tool.id)} />
                     </div>
                 ))}
             </div>
         </div>
       </div>
 
-      {/* --- THIS IS THE UPDATED HISTORY SECTION --- */}
       <div className="row">
         <div className="col-12">
             <h2 className="fw-bold">Previous History</h2>
             <p className="text-muted">What you previously worked on, you can find here</p>
         </div>
         <div className="col-12">
-            {/* Using Bootstrap's vertical stack for a clean, spaced list */}
             <div className="vstack gap-3">
                 {history.map((item) => (
                     <HistoryItem key={item.id} {...item} />

@@ -7,6 +7,7 @@ import WorkspacePage from "./pages/WorkspacePage";
 import ResumeAnalyzerPage from "./pages/ResumeAnalyzerPage";
 import RoadmapGeneratorPage from "./pages/RoadmapGeneratorPage";
 import CoverLetterGeneratorPage from "./pages/CoverLetterGeneratorPage";
+import MyDocumentsPage from "./pages/MyDocumentsPage";
 
 import AppShell from "./layouts/AppShell";
 import {
@@ -17,7 +18,6 @@ import {
   Mail,
   FolderKanban,
 } from "lucide-react";
-import MyDocumentsPage from "./pages/MyDocumentsPage";
 
 function App() {
   return (
@@ -28,6 +28,7 @@ function App() {
     </ThemeProvider>
   );
 }
+
 const Main = () => {
   const { user } = useAuth();
   const [activePage, setActivePage] = useState("dashboard");
@@ -36,7 +37,7 @@ const Main = () => {
     return <LoginPage />;
   }
 
- const navItems = [
+  const navItems = [
     { id: "dashboard", text: "Dashboard", icon: <LayoutDashboard /> },
     { id: "workspace", text: "Workspace", icon: <Briefcase /> },
     { id: "resume-analyzer", text: "Resume Analyzer", icon: <FileText /> },
@@ -44,10 +45,12 @@ const Main = () => {
     { id: "roadmap-generator", text: "Career Roadmap", icon: <Milestone /> },
     { id: "my-documents", text: "My Documents", icon: <FolderKanban /> },
   ];
+
   const renderPage = () => {
     switch (activePage) {
       case "workspace":
-        return <WorkspacePage />;
+        // FIX: Pass the navigation function to the WorkspacePage
+        return <WorkspacePage onNavItemClick={setActivePage} />;
       case "resume-analyzer":
         return <ResumeAnalyzerPage />;
       case "roadmap-generator":
@@ -74,13 +77,3 @@ const Main = () => {
 };
 
 export default App;
-
-
-// <div className="col-12 mb-3">
-//                     <Typography variant="h5" component="h2" fontWeight="bold">Key Features</Typography>
-//                 </div>
-//                 {features.map(feature => (
-//                      <div className="col-12 col-lg-6 col-xl-4 mb-3 d-flex" key={feature.title}>
-//                         <FeatureCard {...feature} />
-//                     </div>
-//                 ))}
