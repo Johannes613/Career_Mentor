@@ -30,7 +30,7 @@ const Footer = () => {
                     {/* About Section */}
                     <div className="col-12 col-md-4 col-lg-5">
                         <Typography variant="h6" gutterBottom fontWeight="bold">
-                            About CareerMentorAI
+                            About CareerMentor
                         </Typography>
                         <Typography variant="body2" sx={{ lineHeight: 1.8, opacity: 0.8 }}>
                             CareerMentorAI is your personalized AI-powered career coach. We help you build optimized resumes, prep for interviews, and craft tailored roadmaps for your dream career.

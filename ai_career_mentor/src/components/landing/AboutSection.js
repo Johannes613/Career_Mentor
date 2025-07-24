@@ -13,9 +13,20 @@ const AboutSection = () => {
     ];
 
     return (
-        <Box id="about" sx={{ py: 10, bgcolor: 'background.default' }}>
+        <Box id="about" sx={{ py: 10, bgcolor: 'background.default',minHeight: '65vh' }}>
             <div className="container">
-                <div className="row align-items-center g-5">
+                <Typography
+                    variant="h4"
+                    component="h2"
+                    fontWeight="bold"
+                    align="center"
+                    gutterBottom
+                    marginBottom={4}
+                >
+                    About CareerMentor
+                </Typography>
+                
+                <div className="row align-items-center g-4">
                     {/* Left Panel: Image */}
                     <div className="col-12 col-md-6">
                         <Box
@@ -36,7 +47,7 @@ const AboutSection = () => {
                         >
                             OUR MISSION
                         </Typography>
-                        <Typography variant="h4" component="h3" fontWeight="bold" gutterBottom>
+                        <Typography variant="h5" component="h3" fontWeight="bold" gutterBottom>
                             Built for the Modern Student
                         </Typography>
                         <Typography paragraph color="text.secondary" sx={{ lineHeight: 1.8, mb: 3 }}>

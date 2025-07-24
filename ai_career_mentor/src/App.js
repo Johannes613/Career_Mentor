@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { AuthProvider } from "./contexts/AuthContext";
 
 // Import all pages
 import LandingPage from "./pages/LandingPage";
@@ -22,77 +23,66 @@ import {
   FolderKanban,
 } from "lucide-react";
 
-function App() {
-  return (
-    <ThemeProvider>
-      <AuthProvider>
-        {/* The main routing logic is now handled by the AppRouter component */}
-        <AppRouter />
-      </AuthProvider>
-    </ThemeProvider>
-  );
-}
+// This is the main application view with the sidebar and content
+const MainApp = () => {
+    const [activePage, setActivePage] = useState("dashboard");
 
-// This new component decides whether to show the landing page, login, or the main app
-const AppRouter = () => {
-    const { user } = useAuth();
-    // This state determines if we show the landing page or the login/app flow
-    const [showLanding, setShowLanding] = useState(true);
+    const navItems = [
+        { id: "dashboard", text: "Dashboard", icon: <LayoutDashboard /> },
+        { id: "workspace", text: "Workspace", icon: <Briefcase /> },
+        { id: "resume-analyzer", text: "Resume Analyzer", icon: <FileText /> },
+        { id: "cover-letter-generator", text: "Cover Letter", icon: <Mail /> },
+        { id: "roadmap-generator", text: "Career Roadmap", icon: <Milestone /> },
+        { id: "my-documents", text: "My Documents", icon: <FolderKanban /> },
+    ];
 
-    // If a user is logged in, show the main authenticated app
-    if (user) {
-        return <AuthenticatedApp />;
-    }
+    const renderPage = () => {
+        switch (activePage) {
+            case "workspace":
+                return <WorkspacePage onNavItemClick={setActivePage} />;
+            case "resume-analyzer":
+                return <ResumeAnalyzerPage />;
+            case "roadmap-generator":
+                return <RoadmapGeneratorPage />;
+            case "cover-letter-generator":
+                return <CoverLetterGeneratorPage />;
+            case "my-documents":
+                return <MyDocumentsPage />;
+            case "dashboard":
+            default:
+                return <StudentDashboardPage />;
+        }
+    };
 
-    // If no user, decide between landing and login
-    return showLanding ? (
-        <LandingPage onNavigateToLogin={() => setShowLanding(false)} />
-    ) : (
-        <LoginPage />
+    return (
+        <AppShell
+            navItems={navItems}
+            activePageId={activePage}
+            onNavItemClick={setActivePage}
+        >
+            {renderPage()}
+        </AppShell>
     );
 };
 
 
-// This is your original "Main" component, now renamed for clarity
-const AuthenticatedApp = () => {
-  const [activePage, setActivePage] = useState("dashboard");
-
-  const navItems = [
-    { id: "dashboard", text: "Dashboard", icon: <LayoutDashboard /> },
-    { id: "workspace", text: "Workspace", icon: <Briefcase /> },
-    { id: "resume-analyzer", text: "Resume Analyzer", icon: <FileText /> },
-    { id: "cover-letter-generator", text: "Cover Letter", icon: <Mail /> },
-    { id: "roadmap-generator", text: "Career Roadmap", icon: <Milestone /> },
-    { id: "my-documents", text: "My Documents", icon: <FolderKanban /> },
-  ];
-
-  const renderPage = () => {
-    switch (activePage) {
-      case "workspace":
-        return <WorkspacePage onNavItemClick={setActivePage} />;
-      case "resume-analyzer":
-        return <ResumeAnalyzerPage />;
-      case "roadmap-generator":
-        return <RoadmapGeneratorPage />;
-      case "cover-letter-generator":
-        return <CoverLetterGeneratorPage />;
-      case "my-documents":
-        return <MyDocumentsPage />;
-      case "dashboard":
-      default:
-        return <StudentDashboardPage />;
-    }
-  };
-
+function App() {
   return (
-    <AppShell
-      navItems={navItems}
-      activePageId={activePage}
-      onNavItemClick={setActivePage}
-    >
-      {renderPage()}
-    </AppShell>
+    <ThemeProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            {/* The landing page is now the root route */}
+            <Route path="/" element={<LandingPage />} />
+            {/* The dashboard is now directly accessible at /dashboard */}
+            <Route path="/dashboard" element={<MainApp />} />
+            {/* You can keep the login page for future use or remove it */}
+            <Route path="/login" element={<LoginPage />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </ThemeProvider>
   );
-};
+}
 
 export default App;

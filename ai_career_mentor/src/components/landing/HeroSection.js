@@ -1,12 +1,13 @@
 import React from 'react';
 import { Box, Typography, Button, Stack } from '@mui/material';
 import { Link as ScrollLink } from 'react-scroll';
+import { Link as RouterLink } from 'react-router-dom'; // Import Link for routing
 
-// Step 1: Import your local image file.
-// Make sure the path is correct relative to this component file.
+// Make sure the path to your image is correct
 import HeroImage from '../../assets/images/heroImg.jpg'; 
 
-const HeroSection = ({ onNavigateToLogin }) => {
+// FIX: The onNavigateToLogin prop is no longer needed
+const HeroSection = () => {
     return (
         <Box
             id="hero"
@@ -15,16 +16,14 @@ const HeroSection = ({ onNavigateToLogin }) => {
                 display: 'flex',
                 alignItems: 'center',
                 textAlign: 'center',
-                color: 'white', // Set text color to white for readability
-                position: 'relative', // Needed for the overlay
-                
-                // Step 2: Use the imported image with the correct syntax
+                color: 'white',
+                position: 'relative',
                 backgroundImage: `url(${HeroImage})`,
-                backgroundSize: 'cover', // Ensures the image covers the entire area
-                backgroundPosition: 'center', // Centers the image
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
             }}
         >
-            {/* NEW: Add a dark overlay for text contrast */}
+            {/* Dark overlay for text contrast */}
             <Box 
                 sx={{
                     position: 'absolute',
@@ -32,25 +31,55 @@ const HeroSection = ({ onNavigateToLogin }) => {
                     left: 0,
                     width: '100%',
                     height: '100%',
-                    backgroundColor: 'rgba(0, 0, 0, 0.5)', // 50% black overlay
+                    backgroundColor: 'rgba(0, 0, 0, 0.6)',
                     zIndex: 1,
                 }}
             />
 
-            {/* Your content, now with zIndex to appear above the overlay */}
             <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-                <Typography variant="h2" component="h1" fontWeight="bold" gutterBottom sx={{ textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
-                    Your AI-Powered Career Co-Pilot
+                <Typography 
+                    variant="h3" 
+                    component="h1" 
+                    fontWeight="bold" 
+                    gutterBottom 
+                    sx={{ 
+                        textShadow: '0 2px 4px rgba(0,0,0,0.5)',
+                        fontSize: { xs: '2.2rem', sm: '3rem', md: '3.5rem' } 
+                    }}
+                >
+                    Your AI-Powered Career Mentor
                 </Typography>
-                <Typography variant="h6" color="rgba(255,255,255,0.9)" sx={{ my: 3, textShadow: '0 1px 3px rgba(0,0,0,0.4)' }}>
-                    Stop guessing, start planning. Get data-driven resume feedback, personalized career roadmaps, and tailored cover letters—all in one place.
+                <Typography 
+                    variant="h6" 
+                    color="rgba(255,255,255,0.9)" 
+                    sx={{ my: 3, textShadow: '0 1px 3px rgba(0,0,0,0.4)', maxWidth: '700px', mx: 'auto' }}
+                >
+                    Stop guessing, start planning. Get data-driven resume feedback, personalized career roadmaps, and tailored cover letters, all in one place.
                 </Typography>
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="center">
-                    <Button variant="contained" size="large" onClick={onNavigateToLogin} sx={{ bgcolor: 'white', color: 'black', '&:hover': { bgcolor: 'grey.200' } }}>
-                        Get Started for Free
+                    {/* FIX: This button now uses RouterLink to navigate to the /dashboard route */}
+                    <Button 
+                        component={RouterLink}
+                        to="/dashboard"
+                        variant="contained" 
+                        size="large" 
+                        sx={{ bgcolor: 'white', color: 'black', '&:hover': { bgcolor: 'grey.200' } }}
+                    >
+                        Go To Dashboard
                     </Button>
                     <ScrollLink to="video" smooth duration={500} offset={-70} style={{ cursor: 'pointer' }}>
-                        <Button variant="outlined" size="large" color="inherit" sx={{ borderColor: 'rgba(255,255,255,0.8)', '&:hover': { borderColor: 'white', bgcolor: 'rgba(255,255,255,0.1)' } }}>
+                        <Button 
+                            variant="outlined" 
+                            size="large" 
+                            color="inherit" 
+                            sx={{ 
+                                borderColor: 'rgba(255,255,255,0.8)', 
+                                '&:hover': { 
+                                    borderColor: 'white', 
+                                    bgcolor: 'rgba(255,255,255,0.1)' 
+                                } 
+                            }}
+                        >
                             Watch a Demo
                         </Button>
                     </ScrollLink>
