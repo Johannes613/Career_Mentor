@@ -25,7 +25,7 @@ import { useAuth } from "../../contexts/AuthContext"; // Import the useAuth hook
 
 const TopBar = () => {
   const { mode, toggleTheme } = useThemeContext();
-  const { user, logout } = useAuth(); // Get user and logout function from context
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   const theme = useTheme();
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -89,7 +89,7 @@ const TopBar = () => {
                 <Button
                   color="inherit"
                   sx={{
-                    color: "rgba(255, 255, 255, 0.88)",
+                    color: "rgba(255, 255, 255, 0.89)",
                     fontWeight: 500,
                     "&:hover": {
                       backgroundColor: "rgba(255,255,255,0.08)",
@@ -102,6 +102,7 @@ const TopBar = () => {
               </ScrollLink>
             ))}
           </Box>
+
           <Box
             sx={{
               display: { xs: "none", md: "flex" },
@@ -141,23 +142,21 @@ const TopBar = () => {
                 Logout
               </Button>
             ) : (
-              <>
-                <Button
-                  component={RouterLink}
-                  to="/login"
-                  variant="contained"
-                  sx={{
-                    bgcolor: "white",
-                    color: "black",
-                    marginLeft: 0.5,
-                    "&:hover": {
-                      bgcolor: "grey.200",
-                    },
-                  }}
-                >
-                  Sign In
-                </Button>
-              </>
+              <Button
+                component={RouterLink}
+                to="/login"
+                variant="contained"
+                sx={{
+                  bgcolor: "white",
+                  color: "black",
+                  marginLeft: 0.5,
+                  "&:hover": {
+                    bgcolor: "grey.200",
+                  },
+                }}
+              >
+                Sign In
+              </Button>
             )}
           </Box>
 
@@ -169,11 +168,13 @@ const TopBar = () => {
           </Box>
         </Toolbar>
       </AppBar>
+
+      {/* Drawer for Mobile */}
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
         <Box
           sx={{ width: 250, bgcolor: "background.default", height: "100%" }}
           role="presentation"
-          onClick={toggleDrawer(false)}
+          onClick={toggleDrawer(false)} // Closes drawer when clicking anywhere
         >
           <List>
             <ListItem>
@@ -182,6 +183,7 @@ const TopBar = () => {
               </Typography>
             </ListItem>
             <Divider />
+
             {navLinks.map((link) => (
               <ScrollLink
                 key={link.title}
@@ -189,26 +191,43 @@ const TopBar = () => {
                 smooth
                 duration={500}
                 offset={-70}
+                onClick={() => setDrawerOpen(false)} // Closes drawer on nav
               >
                 <ListItemButton>
                   <ListItemText primary={link.title} />
                 </ListItemButton>
               </ScrollLink>
             ))}
+
             <Divider />
-            <ListItemButton onClick={toggleTheme}>
+
+            <ListItemButton onClick={() => {
+              toggleTheme();
+              setDrawerOpen(false);
+            }}>
               <ListItemText
                 primary={mode === "dark" ? "Light Mode" : "Dark Mode"}
               />
               {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
             </ListItemButton>
+
             {user && !user.isGuest ? (
-              <ListItemButton onClick={handleLogout}>
+              <ListItemButton
+                onClick={() => {
+                  handleLogout();
+                  setDrawerOpen(false);
+                }}
+              >
                 <ListItemText primary="Logout" />
               </ListItemButton>
             ) : (
-              <ListItemButton component={RouterLink} to="/login">
-                <ListItemText primary="Sign In / Sign Up" />
+              <ListItemButton
+                onClick={() => {
+                  navigate("/login");
+                  setDrawerOpen(false);
+                }}
+              >
+                <ListItemText primary="Login" />
               </ListItemButton>
             )}
           </List>

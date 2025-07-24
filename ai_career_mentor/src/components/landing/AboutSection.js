@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Typography, List, ListItem, ListItemIcon, ListItemText, useTheme } from '@mui/material';
 // Import professional icons from lucide-react
 import { Target, Zap, GraduationCap } from 'lucide-react';
+import aboutImage from '../../assets/images/about.jpg'; // Adjust the path as necessary
 
 const AboutSection = () => {
     const theme = useTheme();
@@ -31,10 +32,10 @@ const AboutSection = () => {
                     <div className="col-12 col-md-6">
                         <Box
                             component="img"
-                            src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=2070&auto=format&fit=crop"
+                            src={aboutImage}
                             alt="Students planning their careers"
                             // FIX: Reduced border radius for a sharper, more modern look
-                            sx={{ width: '100%', borderRadius: 2, boxShadow: 4 }}
+                            sx={{ width: '100%',minHeight:'60vh', borderRadius: 2, boxShadow: 4, objectFit: 'cover' }}
                         />
                     </div>
                     {/* Right Panel: Professional Text Content */}

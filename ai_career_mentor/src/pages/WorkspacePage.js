@@ -44,7 +44,7 @@ const WorkspacePage = ({ onNavItemClick }) => {
         <div className="col-12">
             <div className="row g-4">
                 {tools.map((tool) => (
-                    <div key={tool.id} className="col-12 col-md-6 col-lg-3 d-flex">
+                    <div key={tool.id} className="col-12 col-md-6 col-xl-3 d-flex">
                         <ToolCard {...tool} onClick={() => handleToolClick(tool.id)} />
                     </div>
                 ))}
