@@ -6,9 +6,11 @@ import {
     signInWithPopup, 
     GoogleAuthProvider,
     signOut,
-    onAuthStateChanged
+    onAuthStateChanged,
+    updateProfile // Import updateProfile
 } from "firebase/auth";
 
+// Your web app's Firebase configuration is now read from environment variables
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -19,10 +21,12 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
+// Export all the necessary functions and services
 export { 
     auth, 
     createUserWithEmailAndPassword, 
@@ -30,5 +34,6 @@ export {
     signInWithPopup,
     googleProvider,
     signOut,
-    onAuthStateChanged
+    onAuthStateChanged,
+    updateProfile // Export updateProfile
 };

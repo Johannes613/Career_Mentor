@@ -202,9 +202,7 @@ const AppShell = ({ children, navItems, activePageId }) => {
                             </Button>
                         ) : (
                             <>
-                                <Avatar sx={{ ml: 2, bgcolor: 'primary.main', color: 'primary.contrastText' }}>
-                                   <User size={20} />
-                                </Avatar>
+                                
                                 <Tooltip title="Logout">
                                     <IconButton color="primary" onClick={handleLogout} sx={{ ml: 1 }}>
                                         <LogOut />

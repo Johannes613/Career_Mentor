@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Typography, Paper } from '@mui/material';
 
 const VideoSection = () => {
-    const videoId = 'p4r6454XSEA';
+    const videoId = 'zkhabfxuGt4';
     // FIX: Added autoplay=1 and mute=1 parameters to the URL
     const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}`;
 

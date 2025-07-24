@@ -20,7 +20,7 @@ const LoginPage = () => {
 
     const handleToggleForm = (event) => {
         event.preventDefault();
-        setError(''); // Clear errors when toggling
+        setError('');
         setIsSignUp(prev => !prev);
     };
 
@@ -30,14 +30,16 @@ const LoginPage = () => {
         const data = new FormData(event.currentTarget);
         const email = data.get('email');
         const password = data.get('password');
+        const name = data.get('name'); // Get the name from the form
 
         try {
             if (isSignUp) {
-                await signUp(email, password);
+                // FIX: Pass the name to the signUp function
+                await signUp(name, email, password);
             } else {
                 await login(email, password);
             }
-            navigate('/dashboard'); // Navigate to dashboard on success
+            navigate('/dashboard');
         } catch (err) {
             setError(err.message);
         }
