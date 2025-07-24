@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
+
+// Import all pages
+import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import StudentDashboardPage from "./pages/StudentDashboardPage";
 import WorkspacePage from "./pages/WorkspacePage";
@@ -23,19 +26,36 @@ function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <Main />
+        {/* The main routing logic is now handled by the AppRouter component */}
+        <AppRouter />
       </AuthProvider>
     </ThemeProvider>
   );
 }
 
-const Main = () => {
-  const { user } = useAuth();
-  const [activePage, setActivePage] = useState("dashboard");
+// This new component decides whether to show the landing page, login, or the main app
+const AppRouter = () => {
+    const { user } = useAuth();
+    // This state determines if we show the landing page or the login/app flow
+    const [showLanding, setShowLanding] = useState(true);
 
-  if (!user) {
-    return <LoginPage />;
-  }
+    // If a user is logged in, show the main authenticated app
+    if (user) {
+        return <AuthenticatedApp />;
+    }
+
+    // If no user, decide between landing and login
+    return showLanding ? (
+        <LandingPage onNavigateToLogin={() => setShowLanding(false)} />
+    ) : (
+        <LoginPage />
+    );
+};
+
+
+// This is your original "Main" component, now renamed for clarity
+const AuthenticatedApp = () => {
+  const [activePage, setActivePage] = useState("dashboard");
 
   const navItems = [
     { id: "dashboard", text: "Dashboard", icon: <LayoutDashboard /> },
@@ -49,7 +69,6 @@ const Main = () => {
   const renderPage = () => {
     switch (activePage) {
       case "workspace":
-        // The navigation function is passed to WorkspacePage here
         return <WorkspacePage onNavItemClick={setActivePage} />;
       case "resume-analyzer":
         return <ResumeAnalyzerPage />;
