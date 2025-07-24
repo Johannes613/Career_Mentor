@@ -49,6 +49,7 @@ const Main = () => {
   const renderPage = () => {
     switch (activePage) {
       case "workspace":
+        // The navigation function is passed to WorkspacePage here
         return <WorkspacePage onNavItemClick={setActivePage} />;
       case "resume-analyzer":
         return <ResumeAnalyzerPage />;

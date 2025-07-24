@@ -33,6 +33,7 @@ const ToolCard = ({ icon, title, description, buttonText, onClick }) => {
         },
       }}
     >
+      
       <CardContent sx={{ flexGrow: 1 }}>
         <Box
           sx={{

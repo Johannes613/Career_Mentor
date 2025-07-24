@@ -2,7 +2,7 @@ import React from "react";
 import { Paper, Typography, Button, useTheme } from "@mui/material";
 import { alpha, lighten } from "@mui/material/styles";
 
-const HeroSection = () => {
+const HeroSection = ({ onNavigate }) => {
   const theme = useTheme();
   const gradientStartColor = theme.palette.grey[900];
   const gradientEndColor = lighten(gradientStartColor, 0.3);
@@ -28,6 +28,8 @@ const HeroSection = () => {
       <Button
         variant="outlined"
         size="large"
+        // FIX: The onClick handler now correctly calls the 'onNavigate' prop
+        onClick={() => onNavigate("resume-analyzer")}
         sx={{
           mt: 2,
           color: theme.palette.common.white,

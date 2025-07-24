@@ -4,7 +4,6 @@ import ToolCard from '../components/workspace/ToolCard';
 import HistoryItem from '../components/workspace/HistoryItem';
 import { MessageSquare, FileText, Milestone, Mail } from 'lucide-react';
 
-// Added an 'id' to each tool that matches the navigation ID in App.js
 const tools = [
   { id: 'chatbot', icon: <MessageSquare />, title: 'AI Career Q&A Chat', description: 'Ask career questions', buttonText: 'Ask Now' },
   { id: 'resume-analyzer', icon: <FileText />, title: 'AI Resume Analyzer', description: 'Improve your resume', buttonText: 'Analyze Now' },
@@ -15,14 +14,26 @@ const tools = [
 const history = [
     { id: 1, icon: <FileText />, toolName: 'AI Resume Analysis', timestamp: 'Jul 21 2025 14:30:15 GMT+0400', status: 'Completed' },
     { id: 2, icon: <Mail />, toolName: 'Cover Letter for "Software Engineer"', timestamp: 'Jul 20 2025 11:22:05 GMT+0400', status: 'Completed' },
+    { id: 3, icon: <Milestone />, toolName: 'Career Roadmap Generation', timestamp: 'Jul 19 2025 09:45:50 GMT+0400', status: 'In Progress' },
+    { id: 5, icon: <Mail />, toolName: 'Cover Letter for "Data Analyst"', timestamp: 'Jul 17 2025 10:05:18 GMT+0400', status: 'Failed' },
 ];
-
-// The component now accepts the 'onNavItemClick' function as a prop
 const WorkspacePage = ({ onNavItemClick }) => {
+
+  const handleToolClick = (toolId) => {
+    if (toolId === 'chatbot') {
+      window.dispatchEvent(new CustomEvent('open-chat'));
+    } else {
+      onNavItemClick(toolId);
+    }
+  };
+
   return (
     <div className="container-fluid">
       <div className="row mb-5">
-        <div className="col-12"><HeroSection /></div>
+        <div className="col-12">
+          {/* FIX: The navigation function is now passed down as the 'onNavigate' prop */}
+          <HeroSection onNavigate={onNavItemClick} />
+        </div>
       </div>
 
       <div className="row mb-5">
@@ -34,7 +45,7 @@ const WorkspacePage = ({ onNavItemClick }) => {
             <div className="row g-4">
                 {tools.map((tool) => (
                     <div key={tool.id} className="col-12 col-md-6 col-lg-3 d-flex">
-                        <ToolCard {...tool} onClick={() => onNavItemClick(tool.id)} />
+                        <ToolCard {...tool} onClick={() => handleToolClick(tool.id)} />
                     </div>
                 ))}
             </div>
