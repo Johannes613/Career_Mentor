@@ -24,7 +24,7 @@ const VideoSection = () => {
                     <video
                         style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
                         controls
-                        src="../../../public/demo.mp4" 
+                        src="https://youtu.be/p4r6454XSEA?si=UYseWi1ihaAt6bn0" 
                         poster="https://placehold.co/1920x1080/232526/FFFFFF?text=Video+Preview"
                     >
                         Your browser does not support the video tag.

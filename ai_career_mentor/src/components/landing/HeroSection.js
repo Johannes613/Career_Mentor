@@ -11,7 +11,7 @@ const HeroSection = ({ onNavigateToLogin }) => {
         <Box
             id="hero"
             sx={{
-                minHeight: '90vh',
+                minHeight: '95vh',
                 display: 'flex',
                 alignItems: 'center',
                 textAlign: 'center',

@@ -13,9 +13,10 @@ const LandingPage = ({ onNavigateToLogin }) => {
         <>
             <TopBar onNavigateToLogin={onNavigateToLogin} />
             <HeroSection onNavigateToLogin={onNavigateToLogin} />
+                        <AboutSection />
+
             <FeaturesSection />
             <VideoSection />
-            <AboutSection />
             <FaqSection />
             <Footer />
         </>
