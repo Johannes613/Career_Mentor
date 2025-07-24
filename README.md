@@ -13,7 +13,7 @@
 
   <h2>Live Preview</h2>
 
-  <p><em>Deployed Site: <a href="https://ai-career-mentor.vercel.app/" target="_blank">https://ai-career-mentor.vercel.app/</a></em></p>
+  <p><em>Deployed Site: <a href="https://ai-career-mentor.vercel.app/dashboard" target="_blank">https://ai-career-mentor.vercel.app/dashboard</a></em></p>
   
   <h3>Demo</h3>
  <img src="https://github.com/user-attachments/assets/20c024ed-8554-44e1-aa1f-fb950bde9752" alt="Preview GIF" style="max-width: 100%; height: auto;" />
