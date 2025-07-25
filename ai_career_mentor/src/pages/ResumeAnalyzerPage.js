@@ -12,9 +12,19 @@ import ScoreBreakdownCard from "../components/analyzer/ScoreBreakdownCard";
 import ResumePreview from "../components/analyzer/ResumePreview";
 import ImprovementTips from "../components/analyzer/ImprovementTips";
 import AnalysisHistoryTable from "../components/analyzer/AnalysisHistoryTable";
-// We only need historyData now, analysisData will come from the API
-import { historyData } from "../components/analyzer/analysisData";
-import { extractTextFromPDF } from "../utils/pdfUtils"; // Import our new utility
+import { extractTextFromPDF } from "../utils/pdfUtils";
+
+// Import Firebase services and auth hook
+import { useAuth } from "../contexts/AuthContext";
+import { db } from "../config/firebase";
+import {
+  collection,
+  addDoc,
+  query,
+  where,
+  onSnapshot,
+  serverTimestamp,
+} from "firebase/firestore";
 
 // Import icons for features
 import { ScanLine, Target, Key } from "lucide-react";
@@ -59,16 +69,83 @@ const steps = [
 ];
 
 const ResumeAnalyzerPage = () => {
+  const { user } = useAuth();
   const [currentStep, setCurrentStep] = useState(0);
   const [analysisResult, setAnalysisResult] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [error, setError] = useState(null);
+  const [history, setHistory] = useState([]);
+
+  useEffect(() => {
+  if (user && !user.isGuest) {
+    const q = query(
+      collection(db, "resumeAnalyses"),
+      where("userId", "==", user.uid)
+    );
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const userHistory = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        if (data.createdAt) {
+          userHistory.push({
+            id: doc.id,
+            fileName: data.fileName,
+            score: data.analysis.overallScore,
+            status: "Completed",
+            date: new Date(
+              data.createdAt.seconds * 1000
+            ).toLocaleDateString(),
+          });
+        }
+      });
+      userHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+      setHistory(userHistory);
+    });
+
+    return () => unsubscribe();
+  } else if (user?.isGuest) {
+    // Mock history for guest users
+    setHistory([
+      {
+        id: "mock1",
+        fileName: "Frontend_Resume.pdf",
+        score: 87,
+        status: "Completed",
+        date: "07/23/2025",
+      },
+      {
+        id: "mock2",
+        fileName: "Data_Analyst_CV.docx",
+        score: 92,
+        status: "Completed",
+        date: "07/20/2025",
+      },
+      {
+        id: "mock3",
+        fileName: "ML_Internship_Resume.pdf",
+        score: 78,
+        status: "Completed",
+        date: "07/18/2025",
+      },
+    ]);
+  } else {
+    setHistory([]);
+  }
+}, [user]);
+
 
   const handleAnalysisStart = async (file) => {
     setUploadedFile(file);
     setAnalysisResult(null);
     setError(null);
-    setCurrentStep(1); // Start the stepper and show the modal
+    setCurrentStep(1);
+
+    // Simulate the stepper moving to step 2 while the API call is in flight
+    setTimeout(() => {
+      // Ensure we don't move past step 2 before API call finishes
+      if (currentStep < 2) setCurrentStep(2);
+    }, 1500);
 
     try {
       const resumeText = await extractTextFromPDF(file);
@@ -103,7 +180,6 @@ const ResumeAnalyzerPage = () => {
 
       const result = await response.json();
       const textResponse = result.candidates[0]?.content?.parts[0]?.text;
-
       if (!textResponse) throw new Error("No content received from the API.");
 
       const cleanedJsonResponse = textResponse
@@ -112,20 +188,22 @@ const ResumeAnalyzerPage = () => {
         .trim();
       const parsedData = JSON.parse(cleanedJsonResponse);
 
-      // This is a "fake" delay to simulate the stepper, as the API might be too fast
-      const analysisDuration = 3500;
-      const stepDuration = analysisDuration / 2;
-      setTimeout(() => setCurrentStep(2), stepDuration);
-      setTimeout(() => {
-        setCurrentStep(3);
-        setAnalysisResult(parsedData);
-      }, analysisDuration);
+      if (user && !user.isGuest) {
+        await addDoc(collection(db, "resumeAnalyses"), {
+          userId: user.uid,
+          fileName: file.name,
+          analysis: parsedData,
+          createdAt: serverTimestamp(),
+        });
+      }
+
+      // Set the final results and step
+      setAnalysisResult(parsedData);
+      setCurrentStep(3);
     } catch (err) {
-      setError(
-        "Failed to analyze resume. Please check the console for details."
-      );
+      setError("Failed to analyze resume. Please try again.");
       console.error("Analysis failed:", err);
-      setCurrentStep(0); // Reset on error
+      setCurrentStep(0);
     }
   };
 
@@ -137,9 +215,9 @@ const ResumeAnalyzerPage = () => {
   };
 
   const isAnalyzing = currentStep === 1 || currentStep === 2;
+
   return (
     <div className="container-fluid">
-      {/* --- HEADER SECTION --- */}
       <div className="row mb-4">
         <div className="col-12 d-flex justify-content-between align-items-center">
           <div>
@@ -162,10 +240,50 @@ const ResumeAnalyzerPage = () => {
         </div>
       </div>
 
-      {/* Conditionally render Upload or Results view */}
-      {analysisResult ? (
-        // --- RESULTS VIEW ---
+      {!analysisResult && (
+        <>
+          <div className="row mb-5">
+            <div className="col-12 col-lg-10 mx-auto">
+              <ResumeUpload
+                onAnalysisStart={handleAnalysisStart}
+                isLoading={isAnalyzing}
+              />
+            </div>
+          </div>
+
+          <div className="row mb-5">
+            <div className="col-12 mb-3">
+              <div className="col-12 mt-3">
+                <HowItWorksStepper steps={steps} activeStep={0} />
+              </div>
+            </div>
+          </div>
+
+          {currentStep === 0 && (
+            <div className="row mb-5">
+              <div className="col-12 mb-3">
+                <Typography variant="h5" component="h2" fontWeight="bold">
+                  Key Features
+                </Typography>
+              </div>
+              {features.map((feature) => (
+                <div
+                  className="col-12 col-md-4 d-flex mb-3"
+                  key={feature.title}
+                >
+                  <FeatureCard {...feature} />
+                </div>
+              ))}
+            </div>
+          )}
+        </>
+      )}
+
+      {analysisResult && (
         <div className="row g-3">
+          <div className="col-12 mt-4 mb-4">
+            <HowItWorksStepper steps={steps} activeStep={4} />
+          </div>
           <div className="col-12 col-lg-7">
             <div className="vstack gap-3">
               <OverallScoreCard
@@ -186,45 +304,8 @@ const ResumeAnalyzerPage = () => {
             <ResumePreview file={uploadedFile} />
           </div>
         </div>
-      ) : (
-        // --- UPLOAD VIEW ---
-        <>
-          <div className="row mb-5">
-            <div className="col-12 col-lg-10 mx-auto">
-              <ResumeUpload
-                onAnalysisStart={handleAnalysisStart}
-                isLoading={isAnalyzing}
-              />
-            </div>
-          </div>
-          <div className="row mb-5">
-            <div className="col-12 mb-3">
-              <Typography variant="h5" component="h2" fontWeight="bold">
-                Analysis Progress
-              </Typography>
-            </div>
-            <div className="col-12">
-              <HowItWorksStepper steps={steps} activeStep={currentStep} />
-            </div>
-          </div>
-          {currentStep === 0 && (
-            <div className="row mb-5">
-              <div className="col-12 mb-3">
-                <Typography variant="h5" component="h2" fontWeight="bold">
-                  Key Features
-                </Typography>
-              </div>
-              {features.map((feature) => (
-                <div className="col-12 col-md-4 d-flex" key={feature.title}>
-                  <FeatureCard {...feature} />
-                </div>
-              ))}
-            </div>
-          )}
-        </>
       )}
 
-      {/* --- HISTORY SECTION (Always visible) --- */}
       <div className="row mt-5">
         <div className="col-12 mb-3">
           <Typography variant="h5" component="h2" fontWeight="bold">
@@ -232,11 +313,10 @@ const ResumeAnalyzerPage = () => {
           </Typography>
         </div>
         <div className="col-12">
-          <AnalysisHistoryTable history={historyData} />
+          <AnalysisHistoryTable history={history} />
         </div>
       </div>
 
-      {/* --- Analysis In-Progress Modal --- */}
       <Dialog open={isAnalyzing} fullWidth maxWidth="lg">
         <DialogContent
           sx={{ p: 0, bgcolor: "background.default", height: "90vh" }}
@@ -249,7 +329,10 @@ const ResumeAnalyzerPage = () => {
               className="col-12 col-md-4 p-3"
               style={{ backgroundColor: "var(--bs-body-bg)" }}
             >
-              <AnalysisStatusPanel fileName={uploadedFile?.name || ""} />
+              <AnalysisStatusPanel
+                fileName={uploadedFile?.name || ""}
+                currentStep={currentStep}
+              />
             </div>
           </div>
         </DialogContent>

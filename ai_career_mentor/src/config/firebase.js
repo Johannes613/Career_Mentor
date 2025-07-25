@@ -7,8 +7,19 @@ import {
     GoogleAuthProvider,
     signOut,
     onAuthStateChanged,
-    updateProfile // Import updateProfile
+    updateProfile
 } from "firebase/auth";
+// NEW: Import Firestore services
+import { 
+    getFirestore, 
+    collection, 
+    addDoc, 
+    query, 
+    where, 
+    getDocs,
+    serverTimestamp 
+} from "firebase/firestore";
+
 
 // Your web app's Firebase configuration is now read from environment variables
 const firebaseConfig = {
@@ -24,16 +35,25 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app); // NEW: Initialize Firestore
 const googleProvider = new GoogleAuthProvider();
 
 // Export all the necessary functions and services
 export { 
     auth, 
+    db, // NEW: Export db
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword,
     signInWithPopup,
     googleProvider,
     signOut,
     onAuthStateChanged,
-    updateProfile // Export updateProfile
+    updateProfile,
+    // NEW: Export Firestore functions
+    collection,
+    addDoc,
+    query,
+    where,
+    getDocs,
+    serverTimestamp
 };

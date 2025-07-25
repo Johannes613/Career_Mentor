@@ -1,6 +1,7 @@
 import React from 'react';
 import { Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, Card, CardContent, useTheme } from '@mui/material';
 import { alpha } from '@mui/material/styles';
+import { Link as RouterLink } from 'react-router-dom'; // Import Link for navigation
 import { ArrowRight } from 'lucide-react';
 
 const GenerationHistory = ({ history }) => {
@@ -9,7 +10,6 @@ const GenerationHistory = ({ history }) => {
     return (
         <Card elevation={0} sx={{ border: `1px solid ${theme.palette.divider}` }}>
             <CardContent>
-                
                 <TableContainer component={Paper} elevation={0}>
                     <Table sx={{ minWidth: 650 }} aria-label="generation history table">
                         <TableHead sx={{ bgcolor: alpha(theme.palette.primary.main, 0.04) }}>
@@ -17,7 +17,7 @@ const GenerationHistory = ({ history }) => {
                                 <TableCell sx={{ fontWeight: 'bold' }}>Role</TableCell>
                                 <TableCell sx={{ fontWeight: 'bold' }}>Company</TableCell>
                                 <TableCell sx={{ fontWeight: 'bold' }}>Date Generated</TableCell>
-                                <TableCell sx={{ fontWeight: 'bold', pr: 5 }} align="right">Actions</TableCell>
+                                <TableCell sx={{ fontWeight: 'bold', pr: 3 }} align="right">Actions</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -25,16 +25,19 @@ const GenerationHistory = ({ history }) => {
                                 <TableRow 
                                     key={row.id} 
                                     sx={{ 
-                                        '&:last-child td, &:last-child th': { border: 0 }
+                                        '&:last-child td, &:last-child th': { border: 0 },
                                     }}
                                 >
                                     <TableCell component="th" scope="row">{row.role}</TableCell>
                                     <TableCell>{row.company}</TableCell>
                                     <TableCell>{row.date}</TableCell>
-                                    {/* --- FIX: Added padding-right to align the button with the header --- */}
                                     <TableCell align="right" sx={{ pr: 3 }}>
+                                        {/* FIX: The Button is now a Link that navigates to the My Documents page */}
                                         <Button 
+                                            component={RouterLink}
+                                            to="/dashboard/my-documents"
                                             variant="outlined" 
+                                            size="small"
                                             color="secondary"
                                             endIcon={<ArrowRight size={16} />}
                                         >

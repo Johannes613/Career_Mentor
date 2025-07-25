@@ -14,13 +14,13 @@ import {
   useTheme,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
+import { Link as RouterLink } from 'react-router-dom';
 import { ArrowRight } from "lucide-react";
 
 const AnalysisHistoryTable = ({ history }) => {
   const theme = useTheme();
 
   return (
-    // The entire component is now wrapped in a Card for a professional look
     <Card elevation={0} sx={{ border: `1px solid ${theme.palette.divider}` }}>
       <CardContent>
         <TableContainer component={Paper} elevation={0}>
@@ -39,7 +39,7 @@ const AnalysisHistoryTable = ({ history }) => {
                 <TableCell sx={{ fontWeight: "bold" }} align="center">
                   Date
                 </TableCell>
-                <TableCell sx={{ fontWeight: "bold",pr:5 }} align="right">
+                <TableCell sx={{ fontWeight: "bold", pr: 5 }} align="right">
                   Actions
                 </TableCell>
               </TableRow>
@@ -63,8 +63,10 @@ const AnalysisHistoryTable = ({ history }) => {
                   </TableCell>
                   <TableCell align="center">{row.status}</TableCell>
                   <TableCell align="center">{row.date}</TableCell>
-                  <TableCell align="right">
+                  <TableCell align="right" sx={{ pr: 3 }}>
                     <Button
+                      component={RouterLink}
+                      to="/dashboard/my-documents"
                       variant="outlined"
                       color="secondary"
                       endIcon={<ArrowRight size={16} />}

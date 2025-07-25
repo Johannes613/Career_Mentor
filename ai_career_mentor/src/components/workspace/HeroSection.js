@@ -1,8 +1,10 @@
 import React from "react";
 import { Paper, Typography, Button, useTheme } from "@mui/material";
 import { alpha, lighten } from "@mui/material/styles";
+import { Link as RouterLink } from 'react-router-dom';
 
-const HeroSection = ({ onNavigate }) => {
+// This component no longer needs any props
+const HeroSection = () => {
   const theme = useTheme();
   const gradientStartColor = theme.palette.grey[900];
   const gradientEndColor = lighten(gradientStartColor, 0.3);
@@ -15,7 +17,6 @@ const HeroSection = ({ onNavigate }) => {
         borderRadius: 3,
         color: theme.palette.common.white,
         background: `linear-gradient(90deg, ${gradientStartColor} 35%, ${gradientEndColor} 100%)`,
-        transition: "background 0.3s ease-in-out",
       }}
     >
       <Typography variant="h4" component="h1" fontWeight="bold">
@@ -26,10 +27,10 @@ const HeroSection = ({ onNavigate }) => {
         market insights, and a roadmap built just for you with the power of AI.
       </Typography>
       <Button
+        component={RouterLink}
+        to="/dashboard/resume-analyzer"
         variant="outlined"
         size="large"
-        // FIX: The onClick handler now correctly calls the 'onNavigate' prop
-        onClick={() => onNavigate("resume-analyzer")}
         sx={{
           mt: 2,
           color: theme.palette.common.white,

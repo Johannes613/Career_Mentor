@@ -1,17 +1,16 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-  Typography,
-  Button,
-  Box,
-  useTheme,
-} from "@mui/material";
+import { Card, CardContent, Typography, Button, Box, useTheme } from "@mui/material";
 import { alpha } from "@mui/material/styles";
+import { Link as RouterLink } from 'react-router-dom';
 
-// The component now accepts an 'onClick' prop
-const ToolCard = ({ icon, title, description, buttonText, onClick }) => {
+const ToolCard = ({ id, path, icon, title, description, buttonText }) => {
   const theme = useTheme();
+
+  const handleChatClick = () => {
+    if (id === 'chatbot') {
+        window.dispatchEvent(new CustomEvent('open-chat'));
+    }
+  };
 
   return (
     <Card
@@ -62,8 +61,9 @@ const ToolCard = ({ icon, title, description, buttonText, onClick }) => {
           fullWidth
           variant="outlined"
           color="primary"
-          // The onClick prop is passed to the Button
-          onClick={onClick}
+           component={id === 'chatbot' ? 'button' : RouterLink}
+          to={path || '#'} // Fallback for the chatbot
+          onClick={id === 'chatbot' ? handleChatClick : undefined}
           sx={{
             "&:hover": {
               bgcolor: "primary.main",
