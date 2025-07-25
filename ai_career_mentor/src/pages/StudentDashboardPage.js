@@ -14,7 +14,6 @@ const StudentDashboardPage = () => {
 
   return (
     <>
-      {/* FIX: Changed user.name to user.displayName to correctly show the name */}
       <h5 className="fw-bold mb-1">Welcome back, {user?.displayName || 'User'}</h5>
       <p className="text-muted mb-4">
         {user.isGuest?"Here the data displayed in all sections are mock please login to save your own data": "You've made great progress this week, keep up the excellent work"}
