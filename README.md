@@ -25,7 +25,7 @@
 
   <h2>The Problem</h2>
   <ul>
-    <li><strong>Unstructured Career Planning:</strong> Students often lack a clear, step-by-step guide to prepare for their desired career.</li>
+    <li><strong>Unstructured Career Planning:</strong> Students often lack a clear, step-by-step guide to prepare for their desired career. </li>
     <li><strong>Generic Resumes & Cover Letters:</strong> Creating application documents tailored to specific job descriptions is time-consuming and difficult.</li>
     <li><strong>Skill Gaps:</strong> Students are often unaware of the specific skills they need to develop to become competitive candidates.</li>
     <li><strong>Lack of Immediate Guidance:</strong> Getting quick, reliable answers to specific career questions can be challenging.</li>
