@@ -33,11 +33,10 @@ const AnalysisStatusPanel = ({ fileName, currentStep }) => {
     ];
 
     useEffect(() => {
-        // Simulate the completion of stages based on the parent's currentStep
-        if (currentStep === 1) { // Uploaded
+        if (currentStep === 1) { 
             setCompletedStages([analysisStages[0]]);
         }
-        if (currentStep === 2) { // Analyzing
+        if (currentStep === 2) {
             setTimeout(() => setCompletedStages(prev => [...prev, analysisStages[1]]), 500);
             setTimeout(() => setCompletedStages(prev => [...prev, analysisStages[2]]), 1000);
             setTimeout(() => setCompletedStages(prev => [...prev, analysisStages[3]]), 1500);

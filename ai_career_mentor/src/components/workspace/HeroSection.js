@@ -3,7 +3,6 @@ import { Paper, Typography, Button, useTheme } from "@mui/material";
 import { alpha, lighten } from "@mui/material/styles";
 import { Link as RouterLink } from 'react-router-dom';
 
-// This component no longer needs any props
 const HeroSection = () => {
   const theme = useTheme();
   const gradientStartColor = theme.palette.grey[900];

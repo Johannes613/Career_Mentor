@@ -1,19 +1,69 @@
 import React from 'react';
-import { Paper, Typography, Box, IconButton, Button, Menu, MenuItem, useTheme } from '@mui/material';
-import { MoreVertical, Eye, Download } from 'lucide-react';
+import { Paper, Typography, Box, IconButton, Button, useTheme } from '@mui/material';
+import { Download, Trash2 } from 'lucide-react';
+import jsPDF from 'jspdf';
 
-const DocumentListItem = ({ icon, type, title, date }) => {
+const DocumentListItem = ({ id, icon, type, title, date, content, onDelete }) => {
     const theme = useTheme();
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
 
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+   const handleDownload = () => {
+    const doc = new jsPDF();
+    const margin = 10;
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const maxLineWidth = pageWidth - margin * 2;
 
+    doc.setFont("Helvetica", "normal");
+    doc.setFontSize(16);
+    doc.text(title, margin, 20);
+
+    doc.setFontSize(12);
+    let y = 30;
+
+    if (type === 'Resume' && typeof content === 'object') {
+        const overall = `Overall Score: ${content.overallScore}/100`;
+        const feedback = `Feedback: ${content.overallFeedback}`;
+        const breakdownHeader = "--- Breakdown ---";
+        const tipsHeader = "--- Tips ---";
+
+        const sections = [
+            overall,
+            "",
+            feedback,
+            "",
+            breakdownHeader,
+            ...content.breakdown.map(
+                item => `${item.title} (${item.score}%): ${item.description}`
+            ),
+            "",
+            tipsHeader,
+            ...content.tips.map(tip => `- ${tip}`)
+        ];
+
+        sections.forEach(text => {
+            const lines = doc.splitTextToSize(text, maxLineWidth);
+            lines.forEach(line => {
+                if (y > 280) {
+                    doc.addPage();
+                    y = 20;
+                }
+                doc.text(line, margin, y);
+                y += 7;
+            });
+        });
+    } else {
+        const lines = doc.splitTextToSize(content, maxLineWidth);
+        lines.forEach(line => {
+            if (y > 280) {
+                doc.addPage();
+                y = 20;
+            }
+            doc.text(line, margin, y);
+            y += 7;
+        });
+    }
+
+    doc.save(`${title.replace(/ /g, '_')}.pdf`);
+};
     return (
         <Paper
             variant="outlined"
@@ -32,18 +82,7 @@ const DocumentListItem = ({ icon, type, title, date }) => {
             }}
         >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <Box 
-                    sx={{ 
-                        width: 40, 
-                        height: 40, 
-                        borderRadius: '50%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        bgcolor: 'primary.main',
-                        color: 'primary.contrastText'
-                    }}
-                >
+                <Box sx={{ width: 40, height: 40, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'primary.main', color: 'primary.contrastText' }}>
                     {icon}
                 </Box>
                 <Box>
@@ -55,16 +94,10 @@ const DocumentListItem = ({ icon, type, title, date }) => {
             </Box>
 
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 'auto' }}>
-                <Button variant="outlined" size="small" startIcon={<Eye size={16} />}>View</Button>
-                <Button variant="outlined" size="small" startIcon={<Download size={16} />}>Download</Button>
-                <IconButton onClick={handleClick}>
-                    <MoreVertical size={20} />
+                <Button variant="outlined" size="small" startIcon={<Download size={16} />} onClick={handleDownload}>Download</Button>
+                <IconButton onClick={() => onDelete(id, type)} size="small">
+                    <Trash2 size={20} />
                 </IconButton>
-                <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-                    <MenuItem onClick={handleClose}>Share</MenuItem>
-                    <MenuItem onClick={handleClose}>Rename</MenuItem>
-                    <MenuItem onClick={handleClose} sx={{ color: 'error.main' }}>Delete</MenuItem>
-                </Menu>
             </Box>
         </Paper>
     );

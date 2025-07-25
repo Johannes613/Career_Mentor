@@ -13,7 +13,7 @@ const FeatureCard = ({ icon, title, description }) => {
                 width: '100%', 
                 height: '100%',
                 borderRadius: 2,
-                textAlign: 'left', // Align text to the left for a cleaner look
+                textAlign: 'left', 
                 border: `1px solid ${theme.palette.divider}`,
                 transition: theme.transitions.create(['box-shadow', 'transform', 'border-color']),
                 '&:hover': {

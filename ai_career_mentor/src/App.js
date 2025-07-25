@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation, Link } from "react
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 
-// Import all pages
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import StudentDashboardPage from "./pages/StudentDashboardPage";

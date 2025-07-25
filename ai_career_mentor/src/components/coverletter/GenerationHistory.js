@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, Card, CardContent, useTheme } from '@mui/material';
 import { alpha } from '@mui/material/styles';
-import { Link as RouterLink } from 'react-router-dom'; // Import Link for navigation
+import { Link as RouterLink } from 'react-router-dom'; 
 import { ArrowRight } from 'lucide-react';
 
 const GenerationHistory = ({ history }) => {
@@ -32,7 +32,6 @@ const GenerationHistory = ({ history }) => {
                                     <TableCell>{row.company}</TableCell>
                                     <TableCell>{row.date}</TableCell>
                                     <TableCell align="right" sx={{ pr: 3 }}>
-                                        {/* FIX: The Button is now a Link that navigates to the My Documents page */}
                                         <Button 
                                             component={RouterLink}
                                             to="/dashboard/my-documents"

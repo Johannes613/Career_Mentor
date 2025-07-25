@@ -2,15 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, Typography, Box, IconButton, Tooltip, CircularProgress, useTheme } from '@mui/material';
 import { Copy, Download, RefreshCw } from 'lucide-react';
 import { alpha } from '@mui/material/styles';
-import jsPDF from 'jspdf'; // Import jsPDF
-import html2canvas from 'html2canvas'; // Import html2canvas
+import jsPDF from 'jspdf'; 
+import html2canvas from 'html2canvas'; 
 
 const useTypingEffect = (fullText, speed = 20) => {
-    // ... (this hook remains the same)
     const [typedText, setTypedText] = useState('');
 
     useEffect(() => {
-        setTypedText(''); // Reset on new text
+        setTypedText('');
         if (fullText) {
             const words = fullText.split(/(\s+)/);
             let i = 0;
@@ -32,13 +31,12 @@ const useTypingEffect = (fullText, speed = 20) => {
 const GeneratedLetterPreview = ({ letter, isLoading, error }) => {
     const theme = useTheme();
     const typedLetter = useTypingEffect(letter);
-    const letterContentRef = useRef(null); // Create a ref for the content area
+    const letterContentRef = useRef(null); 
 
     const handleCopy = () => {
         navigator.clipboard.writeText(letter);
     };
 
-    // FIX: Implement the PDF download function
    const handleDownload = () => {
     const original = letterContentRef.current;
 
@@ -83,14 +81,12 @@ const GeneratedLetterPreview = ({ letter, isLoading, error }) => {
                     </Tooltip>
                     <Tooltip title="Download as PDF">
                          <span>
-                            {/* The download button now calls the handleDownload function */}
                             <IconButton onClick={handleDownload} disabled={isLoading || !letter}><Download size={18} /></IconButton>
                         </span>
                     </Tooltip>
                 </Box>
             </Box>
             <CardContent sx={{ flexGrow: 1, position: 'relative', overflowY: 'auto' }}>
-                {/* ... (loading and placeholder logic remains the same) ... */}
                  {isLoading && (
                     <Box sx={{
                         position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
@@ -102,7 +98,6 @@ const GeneratedLetterPreview = ({ letter, isLoading, error }) => {
                     </Box>
                 )}
                 
-                {/* The ref is attached to the Typography component that holds the text */}
                 <Typography ref={letterContentRef} sx={{ whiteSpace: 'pre-wrap', p: 1 }} color={error ? 'error.main' : 'text.primary'}>
                     {typedLetter}
                     {isLoading && <Box component="span" sx={{ ml: '2px', borderRight: '2px solid', borderColor: 'primary.main', animation: 'blinkingCursor 0.75s step-end infinite' }} />}

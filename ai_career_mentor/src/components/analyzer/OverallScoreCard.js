@@ -4,8 +4,6 @@ import { lighten, darken } from '@mui/material/styles';
 
 const OverallScoreCard = ({ score, feedback }) => {
     const theme = useTheme();
-
-    // Create a dynamic gradient based on the theme's primary color
     const gradientStartColor = theme.palette.primary.main;
     const gradientEndColor = theme.palette.mode === 'light' 
         ? lighten(gradientStartColor, 0.3) 
@@ -29,7 +27,7 @@ const OverallScoreCard = ({ score, feedback }) => {
                 <LinearProgress 
                     variant="determinate" 
                     value={score} 
-                    color="inherit" // Use contrast color for the bar
+                    color="inherit"
                     sx={{ height: 6, borderRadius: 3, my: 1, bgcolor: 'rgba(255,255,255,0.3)' }} 
                 />
                 <Typography variant="body2" sx={{ opacity: 0.9 }}>

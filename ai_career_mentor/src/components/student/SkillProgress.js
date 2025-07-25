@@ -2,17 +2,9 @@ import React from 'react';
 import { Card, CardContent, Typography, Box, LinearProgress, useTheme } from '@mui/material';
 import { MoreVertical } from 'lucide-react';
 
-const skills = [
-  { name: 'User Experience Design', progress: 72 },
-  { name: 'Basic fundamentals', progress: 48 },
-  { name: 'React Native components', progress: 15 },
-  { name: 'Basic of music theory', progress: 24 },
-  { name: 'Basic of Designing', progress: 10 },
-];
+const barColors = ['primary', 'primary', 'primary', 'primary', 'primary'];
 
-const barColors = ['primary', 'primary', 'primary', 'primary'];
-
-const SkillProgress = (props) => {
+const SkillProgress = ({ skills = [], ...props }) => {
   const theme = useTheme();
 
   return (
@@ -23,9 +15,7 @@ const SkillProgress = (props) => {
         height: '100%', 
         overflow: 'hidden',
         border: `1px solid ${theme.palette.divider}`,
-        
         ...props.sx,
-        paddingBottom:0
       }}
     >
       <CardContent>
@@ -35,7 +25,7 @@ const SkillProgress = (props) => {
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
           {skills.map((skill, index) => (
-            <Box key={skill.name}>
+            <Box key={index}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.2 }}>
                 <Typography variant="body1" fontWeight="medium">{skill.name}</Typography>
                 <Typography variant="body1" color="text.secondary">{skill.progress}%</Typography>

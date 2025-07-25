@@ -67,7 +67,7 @@ const JobInputSection = ({ onGenerate, isLoading }) => {
                     size="large"
                     startIcon={<Sparkles />}
                     disabled={isLoading}
-                    sx={{ mt: 'auto' }} // Pushes button to the bottom
+                    sx={{ mt: 'auto' }} 
                 >
                     {isLoading ? 'Generating...' : 'Generate Cover Letter'}
                 </Button>

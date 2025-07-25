@@ -8,9 +8,8 @@ import {
   ListItemText,
   useTheme,
 } from "@mui/material";
-// Import professional icons from lucide-react
 import { Target, Zap, GraduationCap } from "lucide-react";
-import aboutImage from "../../assets/images/about.jpg"; // Adjust the path as necessary
+import aboutImage from "../../assets/images/about.jpg";
 
 const AboutSection = () => {
   const theme = useTheme();
@@ -48,13 +47,11 @@ const AboutSection = () => {
         </Typography>
 
         <div className="row align-items-center g-4">
-          {/* Left Panel: Image */}
           <div className="col-12 col-md-6">
             <Box
               component="img"
               src={aboutImage}
               alt="Students planning their careers"
-              // FIX: Reduced border radius for a sharper, more modern look
               sx={{
                 width: "100%",
                 minHeight: "60vh",
@@ -64,7 +61,6 @@ const AboutSection = () => {
               }}
             />
           </div>
-          {/* Right Panel: Professional Text Content */}
           <div className="col-12 col-md-6">
             <Typography
               variant="subtitle1"
@@ -93,7 +89,6 @@ const AboutSection = () => {
               issues that students face while studying in unversities.
             </Typography>
 
-            {/* Redesigned feature list for a more professional look */}
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
               {features.map((feature, index) => (
                 <Box

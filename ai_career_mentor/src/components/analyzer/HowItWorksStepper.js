@@ -23,7 +23,6 @@ const HowItWorksStepper = ({ steps, activeStep }) => {
 
         return (
           <React.Fragment key={step.number}>
-            {/* STEP BLOCK */}
             <Box sx={{ flex: 1, minWidth: 200, textAlign: 'center', px: 2 }}>
               <Avatar
                 sx={{
@@ -50,7 +49,6 @@ const HowItWorksStepper = ({ steps, activeStep }) => {
               </Typography>
             </Box>
 
-            {/* CONNECTOR LINE */}
             {index < steps.length - 1 && (
               <Box
                 sx={{
@@ -61,7 +59,7 @@ const HowItWorksStepper = ({ steps, activeStep }) => {
                   backgroundColor: theme.palette.grey[300],
                   borderRadius: 1,
                   transition: 'background-color 0.3s ease',
-                  mt: '-28px', // vertically align with center of Avatar
+                  mt: '-28px', 
                 }}
               >
                 <Box

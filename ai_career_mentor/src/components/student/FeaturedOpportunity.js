@@ -9,9 +9,20 @@ import {
   useTheme,
 } from "@mui/material";
 import { ShieldCheck, Compass, MessageSquare } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const FeaturedOpportunity = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
+
+  const handleAnalyzeClick = () => {
+    navigate("/dashboard/resume-analyzer");
+  };
+
+  const handleAskCoachClick = () => {
+    window.dispatchEvent(new CustomEvent("open-chat"));
+  };
+
   return (
     <Card
       sx={{
@@ -81,15 +92,13 @@ const FeaturedOpportunity = () => {
             mt: 2,
           }}
         >
-          {/* --- Primary Button (High Contrast) --- */}
           <Button
-            variant="contained" // Changed to contained for a solid look
+            variant="contained"
             size="large"
+            onClick={handleAnalyzeClick}
             sx={{
-              // FIX: Use theme's contrast color for background
-              bgcolor: 'primary.contrastText',
-              // FIX: Use theme's main color for text
-              color: 'primary.main',
+              bgcolor: "primary.contrastText",
+              color: "primary.main",
               fontWeight: "bold",
               padding: "8px 24px",
               "&:hover": {
@@ -99,21 +108,19 @@ const FeaturedOpportunity = () => {
           >
             Analyze My Resume
           </Button>
-          
-          {/* --- Secondary Button (Outlined) --- */}
+
           <Button
             variant="outlined"
             size="large"
-            // "inherit" makes the button use the parent's contrastText color
-            color="inherit" 
+            color="inherit"
+            onClick={handleAskCoachClick}
             sx={{
               fontWeight: "bold",
               padding: "8px 24px",
-              // FIX: Use alpha on the theme's contrast color for the border
               borderColor: alpha(theme.palette.primary.contrastText, 0.5),
               "&:hover": {
                 bgcolor: alpha(theme.palette.primary.contrastText, 0.1),
-                borderColor: 'primary.contrastText',
+                borderColor: "primary.contrastText",
               },
             }}
           >

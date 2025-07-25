@@ -9,7 +9,6 @@ import {
     onAuthStateChanged,
     updateProfile
 } from "firebase/auth";
-// NEW: Import Firestore services
 import { 
     getFirestore, 
     collection, 
@@ -17,11 +16,13 @@ import {
     query, 
     where, 
     getDocs,
-    serverTimestamp 
+    onSnapshot, 
+    serverTimestamp,
+    doc, 
+    deleteDoc 
 } from "firebase/firestore";
 
 
-// Your web app's Firebase configuration is now read from environment variables
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -32,16 +33,14 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app); // NEW: Initialize Firestore
+const db = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
 
-// Export all the necessary functions and services
 export { 
     auth, 
-    db, // NEW: Export db
+    db,
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword,
     signInWithPopup,
@@ -49,11 +48,13 @@ export {
     signOut,
     onAuthStateChanged,
     updateProfile,
-    // NEW: Export Firestore functions
     collection,
     addDoc,
     query,
     where,
     getDocs,
-    serverTimestamp
+    onSnapshot,
+    serverTimestamp,
+    doc,
+    deleteDoc 
 };

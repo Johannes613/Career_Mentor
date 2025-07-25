@@ -11,12 +11,11 @@ const ResumeUpload = ({ onAnalysisStart, isLoading }) => {
         if (selectedFile) {
             setFile(selectedFile);
             if (onAnalysisStart) {
-                onAnalysisStart(selectedFile); // Pass the selected file to the parent
+                onAnalysisStart(selectedFile);
             }
         }
     };
     
-    // ... (rest of the component is the same)
     const handleDragOver = (e) => e.preventDefault();
     const handleDrop = (e) => {
         e.preventDefault();

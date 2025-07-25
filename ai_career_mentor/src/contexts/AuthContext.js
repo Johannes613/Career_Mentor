@@ -7,7 +7,7 @@ import {
     googleProvider,
     signOut,
     onAuthStateChanged,
-    updateProfile // Import updateProfile here as well
+    updateProfile 
 } from '../config/firebase';
 
 const AuthContext = createContext();
@@ -33,14 +33,11 @@ export const AuthProvider = ({ children }) => {
         return () => unsubscribe();
     }, []);
 
-    // FIX: signUp function now accepts a name
     const signUp = async (name, email, password) => {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        // After creating the user, update their profile with the provided name
         await updateProfile(userCredential.user, {
             displayName: name
         });
-        // This will trigger onAuthStateChanged and update the user state
         return userCredential;
     };
 

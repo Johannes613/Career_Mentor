@@ -62,7 +62,7 @@ const ToolCard = ({ id, path, icon, title, description, buttonText }) => {
           variant="outlined"
           color="primary"
            component={id === 'chatbot' ? 'button' : RouterLink}
-          to={path || '#'} // Fallback for the chatbot
+          to={path || '#'} 
           onClick={id === 'chatbot' ? handleChatClick : undefined}
           sx={{
             "&:hover": {

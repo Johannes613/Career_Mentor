@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { ScanLine, Milestone, Mail, MessageSquare } from 'lucide-react';
-import FeatureCard from './FeatureCard'; // Import the new component
+import FeatureCard from './FeatureCard';
 
 const features = [
     { icon: <ScanLine size={24} />, title: 'AI Resume Analysis', description: 'Get an instant score and actionable feedback to optimize your resume for any job.' },
@@ -25,7 +25,6 @@ const FeaturesSection = () => {
                     </div>
                 </div>
                 
-                {/* Bootstrap grid to lay out the new FeatureCard components */}
                 <div className="row g-4">
                     {features.map((feature, index) => (
                         <div className="col-12 col-sm-6 col-lg-3 d-flex" key={index}>

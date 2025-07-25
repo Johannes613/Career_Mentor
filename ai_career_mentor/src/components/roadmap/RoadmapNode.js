@@ -6,14 +6,13 @@ const RoadmapNode = ({ data }) => {
     const theme = useTheme();
     return (
         <>
-            {/* Handles are the connection points for the edges */}
             <Handle type="target" position={Position.Top} />
             <Paper 
                 elevation={2}
                 sx={{ 
                     padding: 2, 
                     width: 220,
-                    backgroundColor: theme.palette.mode === 'light' ? '#FFFBEB' : '#424242', // Light yellow or dark grey
+                    backgroundColor: theme.palette.mode === 'light' ? '#FFFBEB' : '#424242', 
                     border: `1px solid ${theme.palette.divider}`,
                 }}
             >

@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { Box, Typography, TextField, Button, IconButton, InputAdornment, Link, useTheme, Divider, Alert } from '@mui/material';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-
-// Icons
 import { Bot } from 'lucide-react';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -30,11 +28,10 @@ const LoginPage = () => {
         const data = new FormData(event.currentTarget);
         const email = data.get('email');
         const password = data.get('password');
-        const name = data.get('name'); // Get the name from the form
+        const name = data.get('name');
 
         try {
             if (isSignUp) {
-                // FIX: Pass the name to the signUp function
                 await signUp(name, email, password);
             } else {
                 await login(email, password);

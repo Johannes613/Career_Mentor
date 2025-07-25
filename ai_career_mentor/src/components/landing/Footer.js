@@ -18,7 +18,6 @@ const Footer = () => {
         id='footer'
             component="footer"
             sx={{
-                // Use the theme's primary color for the background
                 backgroundColor: 'black',
                 color: 'white',
                 pt: 8,
@@ -26,7 +25,6 @@ const Footer = () => {
             }}
         >
             <div className="container">
-                {/* --- Main Footer Content (Bootstrap Grid) --- */}
                 <div className="row g-4 text-center text-md-start">
                     {/* About Section */}
                     <div className="col-12 col-md-4 col-lg-5">
@@ -54,7 +52,6 @@ const Footer = () => {
                         </Box>
                     </div>
 
-                    {/* Quick Links */}
                     <div className="col-6 col-md-2 col-lg-2">
                         <Typography variant="h6" gutterBottom fontWeight="bold">
                             Product
@@ -72,7 +69,6 @@ const Footer = () => {
                         </Box>
                     </div>
 
-                    {/* Resources */}
                     <div className="col-6 col-md-2 col-lg-2">
                         <Typography variant="h6" gutterBottom fontWeight="bold">
                             Resources
@@ -88,7 +84,6 @@ const Footer = () => {
                         </Box>
                     </div>
 
-                    {/* Contact Info */}
                     <div className="col-12 col-md-4 col-lg-3">
                         <Typography variant="h6" gutterBottom fontWeight="bold">
                             Contact
@@ -108,7 +103,6 @@ const Footer = () => {
                     </div>
                 </div>
 
-                {/* Bottom Bar */}
                 <Box textAlign="center" mt={8} pt={4} borderTop={1} borderColor="rgba(255,255,255,0.1)">
                     <Box display="flex" justifyContent="center" alignItems="center" gap={1} mb={1}>
                         <Bot size={20} />

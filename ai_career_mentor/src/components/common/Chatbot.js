@@ -14,10 +14,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
 import { Bot } from "lucide-react";
 
-// A utility function to format the current time
 const formatTime = () => new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
-// The system prompt that defines the bot's persona and knowledge
 const systemPrompt = `You are the "CareerMentor AI Assistant," a helpful and professional chatbot for the CareerMentorAI application. Your purpose is to assist students with their career goals.
 The application has the following features:
 - AI Resume Analyzer: Scores and provides feedback on resumes.
@@ -27,38 +25,31 @@ The application has the following features:
 Keep your answers concise, helpful, and encouraging. Always act as a career coach.`;
 
 
-// *** BUG FIX: The logic inside this hook has been simplified ***
 const useTypingEffect = (fullText, isLastMessage) => {
   const [typedText, setTypedText] = useState('');
 
   useEffect(() => {
-    // If this is the last message, start the typing effect from scratch.
     if (isLastMessage && fullText) {
-      setTypedText(''); // Reset text
+      setTypedText('');
       const words = fullText.split(/(\s+)/);
       let i = 0;
       const typingInterval = setInterval(() => {
         if (i < words.length) {
-          // Use a functional update to ensure we have the latest previous state
           setTypedText(prev => prev + words[i]);
           i++;
         } else {
           clearInterval(typingInterval);
         }
-      }, 50); // Typing speed
-
-      // Cleanup function to clear interval if the component unmounts or re-renders
+      }, 50); 
       return () => clearInterval(typingInterval);
     } else {
-      // For all previous messages, just show the full text immediately.
       setTypedText(fullText);
     }
-  }, [fullText, isLastMessage]); // The effect re-runs only when the text or its "last message" status changes
+  }, [fullText, isLastMessage]); 
 
   return typedText;
 };
 
-// Bot message component with typing animation
 const BotMessage = ({ text, time, isLastMessage }) => {
   const theme = useTheme();
   const typedText = useTypingEffect(text, isLastMessage);
@@ -81,7 +72,6 @@ const BotMessage = ({ text, time, isLastMessage }) => {
 };
 
 
-// Main Chatbot Component
 const Chatbot = () => {
   const theme = useTheme();
   const [isOpen, setIsOpen] = useState(false);

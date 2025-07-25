@@ -21,7 +21,6 @@ const LandingPage = ({ onNavigateToLogin }) => {
         <FaqSection />
       </main>
       <Footer />
-      {/* Add the Chatbot component here so it floats over the landing page */}
       <Chatbot />
     </>
   );

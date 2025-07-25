@@ -5,14 +5,13 @@ import { useThemeContext } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 import Chatbot from '../components/common/Chatbot';
 
-// Import necessary icons
 import { Bot, User, LogOut, Home } from 'lucide-react';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import MenuIcon from '@mui/icons-material/Menu';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight'; // Import the new icon
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 const expandedDrawerWidth = 260;
 const collapsedDrawerWidth = 88; 
@@ -185,7 +184,6 @@ const AppShell = ({ children, navItems, activePageId }) => {
                             onClick={handleDrawerToggle}
                             sx={{ mr: 2 }}
                         >
-                            {/* FIX: Use a right chevron to expand on large screens */}
                             {isLargeScreen ? (isCollapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />) : <MenuIcon />}
                         </IconButton>
                         <Box sx={{ flexGrow: 1 }} />

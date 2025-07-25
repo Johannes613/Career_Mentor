@@ -12,11 +12,9 @@ const ResumePreview = ({ file, isModalVersion = false }) => {
     const [scale, setScale] = useState(1.0);
     const containerRef = useRef(null);
     const [containerWidth, setContainerWidth] = useState(0);
-
-    // This effect measures the container's width to set the PDF page size
     useEffect(() => {
     if (isModalVersion) {
-        setScale(0.8); // Or any smaller value like 0.6, 0.8, etc.
+        setScale(0.8); 
     } else {
         setScale(1.0);
     }
@@ -25,12 +23,11 @@ const ResumePreview = ({ file, isModalVersion = false }) => {
     useEffect(() => {
         const updateWidth = () => {
             if (containerRef.current) {
-                // We set the container width state here
                 setContainerWidth(containerRef.current.clientWidth);
             }
         };
 
-        const timer = setTimeout(updateWidth, 50); // Give a brief moment for the container to render
+        const timer = setTimeout(updateWidth, 50); 
         window.addEventListener('resize', updateWidth);
         
         return () => {
@@ -97,7 +94,7 @@ const ResumePreview = ({ file, isModalVersion = false }) => {
                                 pageNumber={index + 1}
                                 renderTextLayer={false}
                                 renderAnnotationLayer={false}
-                                // FIX: Use width to fit the container perfectly, then apply manual scale
+                              
                                 width={containerWidth * scale}
                             />
                         ))}

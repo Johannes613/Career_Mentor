@@ -3,7 +3,6 @@ import { Box, Typography, Paper } from '@mui/material';
 
 const VideoSection = () => {
     const videoId = 'zkhabfxuGt4';
-    // FIX: Added autoplay=1 and mute=1 parameters to the URL
     const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}`;
 
     return (
@@ -16,13 +15,12 @@ const VideoSection = () => {
                     Watch this short demo to see how our AI tools can transform your job application process from start to finish.
                 </Typography>
                 
-                {/* FIX: Added a Box to constrain the max width, which reduces the height */}
                 <Box sx={{ maxWidth: 900, mx: 'auto' }}>
                     <Paper
                         elevation={4}
                         sx={{
                             position: 'relative',
-                            paddingTop: '63.25%', // 16:9 Aspect Ratio
+                            paddingTop: '63.25%', 
                             height: 0,
                             overflow: 'hidden',
                             borderRadius: 2,

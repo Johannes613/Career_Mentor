@@ -1,32 +1,43 @@
-import React, { useState } from 'react';
-import { Card, CardContent, Typography, Box, IconButton, Button, Menu, MenuItem, useTheme } from '@mui/material';
-import { MoreVertical, Eye, Download } from 'lucide-react';
+import React from 'react';
+import { Card, CardContent, Typography, Box, IconButton, Button, useTheme } from '@mui/material';
+import { Download, Trash2 } from 'lucide-react';
+import jsPDF from 'jspdf';
 
-const DocumentCard = ({ icon, type, title, date }) => {
+const DocumentCard = ({ id, icon, type, title, date, content, onDelete }) => {
     const theme = useTheme();
-    const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
 
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
+    const handleDownload = () => {
+        const doc = new jsPDF();
+        let textContent = '';
+
+        if (type === 'Resume' && typeof content === 'object') {
+            textContent += `Overall Score: ${content.overallScore}/100\n\n`;
+            textContent += `Feedback: ${content.overallFeedback}\n\n`;
+            textContent += `--- Breakdown ---\n`;
+            content.breakdown.forEach(item => {
+                textContent += `${item.title} (${item.score}%): ${item.description}\n`;
+            });
+            textContent += `\n--- Tips ---\n`;
+            content.tips.forEach(tip => {
+                textContent += `- ${tip}\n`;
+            });
+        } else {
+            textContent = content;
+        }
+        
+        doc.text(textContent, 10, 10);
+        doc.save(`${title.replace(/ /g, '_')}.pdf`);
     };
 
     return (
         <Card 
             sx={{ 
-                height: '105%', 
+                height: '100%', 
                 width: '100%',
                 display: 'flex', 
                 flexDirection: 'column', 
                 border: `1px solid ${theme.palette.divider}`,
-                // --- NEW: Added transition for a smooth hover effect ---
-                transition: theme.transitions.create(['box-shadow', 'transform'], {
-                    duration: theme.transitions.duration.short,
-                }),
-                // --- NEW: On hover, the card will lift up slightly ---
+                transition: theme.transitions.create(['box-shadow', 'transform']),
                 '&:hover': {
                     transform: 'translateY(-4px)',
                     boxShadow: theme.shadows[4],
@@ -36,32 +47,12 @@ const DocumentCard = ({ icon, type, title, date }) => {
         >
             <CardContent sx={{ flexGrow: 1 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Box 
-                        sx={{ 
-                            width: 48, 
-                            height: 48, 
-                            borderRadius: '50%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            bgcolor: 'primary.main',
-                            color: 'primary.contrastText'
-                        }}
-                    >
+                    <Box sx={{ width: 48, height: 48, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'primary.main', color: 'primary.contrastText' }}>
                         {icon}
                     </Box>
-                    <IconButton onClick={handleClick}>
-                        <MoreVertical size={20} />
+                    <IconButton onClick={() => onDelete(id, type)} size="small">
+                        <Trash2 size={20} />
                     </IconButton>
-                    <Menu
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                    >
-                        <MenuItem onClick={handleClose}>Share</MenuItem>
-                        <MenuItem onClick={handleClose}>Rename</MenuItem>
-                        <MenuItem onClick={handleClose} sx={{ color: 'error.main' }}>Delete</MenuItem>
-                    </Menu>
                 </Box>
                 <Typography variant="h6" fontWeight="bold" sx={{ mt: 2, mb: 1 }}>
                     {title}
@@ -70,10 +61,10 @@ const DocumentCard = ({ icon, type, title, date }) => {
                     {`Generated on ${date}`}
                 </Typography>
             </CardContent>
-            <Box sx={{ p: 2, pt: 0, display: 'flex', gap: 1 }}>
-                <Button fullWidth variant="contained" startIcon={<Eye size={16} />}>View</Button>
-                {/* Refined: Using secondary color for the outlined button for better theme consistency */}
-                <Button fullWidth variant="outlined" color="secondary" startIcon={<Download size={16} />}>Download</Button>
+            <Box sx={{ p: 2, pt: 0 }}>
+                <Button fullWidth variant="contained" startIcon={<Download size={16} />} onClick={handleDownload}>
+                    Download
+                </Button>
             </Box>
         </Card>
     );

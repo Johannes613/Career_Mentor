@@ -1,8 +1,8 @@
 import React from 'react';
 import { Paper, Typography, Box, Button, Chip, useTheme } from '@mui/material';
 import { ArrowRight } from 'lucide-react';
+import { Link as RouterLink } from 'react-router-dom'; 
 
-// HistoryItem now accepts a 'status' prop to determine the chip color
 const HistoryItem = ({ icon, toolName, timestamp, status }) => {
     const theme = useTheme();
 
@@ -28,7 +28,7 @@ const HistoryItem = ({ icon, toolName, timestamp, status }) => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                flexWrap: 'wrap', // Allow wrapping on small screens
+                flexWrap: 'wrap', 
                 gap: 2
             }}
         >
@@ -45,6 +45,8 @@ const HistoryItem = ({ icon, toolName, timestamp, status }) => {
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, ml: 'auto' }}>
                 <Chip label={status} color={getStatusColor()} size="small" />
                 <Button 
+                    component={RouterLink}
+                    to="/dashboard/my-documents"
                     variant="outlined" 
                     color="secondary"
                     endIcon={<ArrowRight size={16} />}

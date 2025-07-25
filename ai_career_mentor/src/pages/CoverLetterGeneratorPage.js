@@ -3,8 +3,6 @@ import { Typography } from '@mui/material';
 import JobInputSection from '../components/coverletter/JobInputSection';
 import GeneratedLetterPreview from '../components/coverletter/GeneratedLetterPreview';
 import GenerationHistory from '../components/coverletter/GenerationHistory';
-
-// Firebase and auth
 import { useAuth } from '../contexts/AuthContext';
 import { db, collection, addDoc, query, where, serverTimestamp } from '../config/firebase';
 import { onSnapshot, orderBy } from 'firebase/firestore';
@@ -17,7 +15,6 @@ const CoverLetterGeneratorPage = () => {
   const [error, setError] = useState(null);
   const [history, setHistory] = useState([]);
 
-  // Realtime Firestore listener
 useEffect(() => {
   if (user && !user.isGuest) {
     const q = query(
@@ -43,7 +40,6 @@ useEffect(() => {
 
     return () => unsubscribe();
   } else if (user?.isGuest) {
-    // Mock history for guest users
     setHistory([
       {
         id: 'mock1',
@@ -73,7 +69,6 @@ useEffect(() => {
 }, [user]);
 
 
-  // Handle letter generation
   const handleGenerate = async (inputs) => {
     setIsLoading(true);
     setGeneratedLetter('');

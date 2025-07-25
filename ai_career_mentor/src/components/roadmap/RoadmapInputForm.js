@@ -4,9 +4,9 @@ import { Sparkles } from 'lucide-react';
 
 const RoadmapInputForm = ({ onGenerate, isLoading }) => {
     const [inputs, setInputs] = useState({
-        field: 'Full Stack React Developer',
-        level: 'Beginner',
-        skills: 'JavaScript, HTML, CSS',
+        field: '',
+        level: '',
+        skills: '',
     });
 
     const handleChange = (e) => {

@@ -10,13 +10,12 @@ const nodeTypes = { roadmapNode: RoadmapNode };
 const RoadmapDisplay = ({ nodes, edges, isLoading }) => {
     const theme = useTheme();
 
-    // FIX: Define default styles for the edges (lines) to make them visible
     const defaultEdgeOptions = {
         style: {
             strokeWidth: 2,
-            stroke: theme.palette.text.secondary, // Use a theme color for the lines
+            stroke: theme.palette.text.secondary, 
         },
-        markerEnd: { // This adds the arrowhead
+        markerEnd: { 
             type: 'arrowclosed',
             color: theme.palette.text.secondary,
         },
@@ -28,7 +27,7 @@ const RoadmapDisplay = ({ nodes, edges, isLoading }) => {
                 nodes={nodes}
                 edges={edges}
                 nodeTypes={nodeTypes}
-                defaultEdgeOptions={defaultEdgeOptions} // Apply the default styles
+                defaultEdgeOptions={defaultEdgeOptions} 
                 fitView
                 proOptions={{ hideAttribution: true }}
             >
@@ -37,7 +36,6 @@ const RoadmapDisplay = ({ nodes, edges, isLoading }) => {
                 <MiniMap />
             </ReactFlow>
 
-            {/* Loading or Empty State Overlay */}
             {(isLoading || nodes.length === 0) && (
                  <Box sx={{
                     position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,

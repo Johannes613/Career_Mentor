@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Dialog, DialogContent, Button } from "@mui/material";
 import { RefreshCw } from "lucide-react";
-
-// Import all necessary components
 import ResumeUpload from "../components/analyzer/ResumeUpload";
 import HowItWorksStepper from "../components/analyzer/HowItWorksStepper";
 import FeatureCard from "../components/analyzer/FeatureCard";
@@ -13,8 +11,6 @@ import ResumePreview from "../components/analyzer/ResumePreview";
 import ImprovementTips from "../components/analyzer/ImprovementTips";
 import AnalysisHistoryTable from "../components/analyzer/AnalysisHistoryTable";
 import { extractTextFromPDF } from "../utils/pdfUtils";
-
-// Import Firebase services and auth hook
 import { useAuth } from "../contexts/AuthContext";
 import { db } from "../config/firebase";
 import {
@@ -26,7 +22,6 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 
-// Import icons for features
 import { ScanLine, Target, Key } from "lucide-react";
 
 const features = [
@@ -135,77 +130,77 @@ const ResumeAnalyzerPage = () => {
 }, [user]);
 
 
-  const handleAnalysisStart = async (file) => {
-    setUploadedFile(file);
-    setAnalysisResult(null);
-    setError(null);
-    setCurrentStep(1);
+ const handleAnalysisStart = async (file) => {
+  setUploadedFile(file);
+  setAnalysisResult(null);
+  setError(null);
+  setCurrentStep(1);
 
-    // Simulate the stepper moving to step 2 while the API call is in flight
-    setTimeout(() => {
-      // Ensure we don't move past step 2 before API call finishes
-      if (currentStep < 2) setCurrentStep(2);
-    }, 1500);
+  setTimeout(() => {
+    if (currentStep < 2) setCurrentStep(2);
+  }, 1500);
 
-    try {
-      const resumeText = await extractTextFromPDF(file);
+  try {
+    const resumeText = await extractTextFromPDF(file);
 
-      const apiKey = process.env.REACT_APP_GEMINI_API_KEY;
-      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    const apiKey = process.env.REACT_APP_GEMINI_API_KEY;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
-      const prompt = `
-                Act as an expert career coach and resume analyzer. Analyze the following resume text and provide a detailed review.
-                
-                Resume Text:
-                ---
-                ${resumeText}
-                ---
+    const prompt = `
+      Act as an expert career coach and resume analyzer. Analyze the following resume text and provide a detailed review.
 
-                Please provide the response in a structured JSON format. The JSON object must have the following keys: "overallScore", "overallFeedback", "breakdown", and "tips".
-                - "overallScore": A number between 0 and 100 representing the resume's quality.
-                - "overallFeedback": A 1-2 sentence summary of the resume's strengths and weaknesses.
-                - "breakdown": An array of exactly 4 objects for the sections: 'Contact Info', 'Experience', 'Education', and 'Skills'. Each object must have "title", "score" (a number 0-100), and "description" (a 1-sentence feedback).
-                - "tips": An array of 3-4 short, actionable string tips for improvement.
+      Resume Text:
+      ---
+      ${resumeText}
+      ---
 
-                Do not include any text or formatting outside of the main JSON object.
-            `;
+      Please provide the response in a structured JSON format. The JSON object must have the following keys: "overallScore", "overallFeedback", "breakdown", and "tips".
 
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
+      - "overallScore": A number between 0 and 100 representing the resume's quality.
+      - "overallFeedback": A 1-2 sentence summary of the resume's strengths and weaknesses.
+      - "breakdown": An array of exactly 4 objects for the sections: 'Contact Info', 'Experience', 'Education', and 'Skills'. Each object must have "title", "score" (a number 0-100), and "description" (a 1-sentence feedback).
+      - "tips": An array of 3-4 short, actionable string tips for improvement.
+
+      Do not include any text or formatting outside of the main JSON object.
+    `;
+
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
+    });
+
+    if (!response.ok) throw new Error(`API error: ${response.statusText}`);
+
+    const result = await response.json();
+    const textResponse = result.candidates[0]?.content?.parts[0]?.text;
+    if (!textResponse) throw new Error("No content received from the API.");
+
+    const cleanedJsonResponse = textResponse
+      .replace(/```json/g, "")
+      .replace(/```/g, "")
+      .trim();
+    const parsedData = JSON.parse(cleanedJsonResponse);
+
+    if (user && !user.isGuest) {
+      await addDoc(collection(db, "resumeAnalyses"), {
+        userId: user.uid,
+        fileName: file.name,
+        analysis: parsedData,
+        resumeText: resumeText, 
+        createdAt: serverTimestamp(),
       });
-
-      if (!response.ok) throw new Error(`API error: ${response.statusText}`);
-
-      const result = await response.json();
-      const textResponse = result.candidates[0]?.content?.parts[0]?.text;
-      if (!textResponse) throw new Error("No content received from the API.");
-
-      const cleanedJsonResponse = textResponse
-        .replace(/```json/g, "")
-        .replace(/```/g, "")
-        .trim();
-      const parsedData = JSON.parse(cleanedJsonResponse);
-
-      if (user && !user.isGuest) {
-        await addDoc(collection(db, "resumeAnalyses"), {
-          userId: user.uid,
-          fileName: file.name,
-          analysis: parsedData,
-          createdAt: serverTimestamp(),
-        });
-      }
-
-      // Set the final results and step
-      setAnalysisResult(parsedData);
-      setCurrentStep(3);
-    } catch (err) {
-      setError("Failed to analyze resume. Please try again.");
-      console.error("Analysis failed:", err);
-      setCurrentStep(0);
     }
-  };
+
+    setAnalysisResult(parsedData);
+    setCurrentStep(3);
+  } catch (err) {
+    setError("Failed to analyze resume. Please try again.");
+    console.error("Analysis failed:", err);
+    setCurrentStep(0);
+  }
+};
+
 
   const handleReanalyze = () => {
     setCurrentStep(0);

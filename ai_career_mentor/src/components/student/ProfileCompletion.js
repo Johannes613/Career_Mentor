@@ -51,7 +51,6 @@ const ProfileCompletion = () => {
                                 tick={false}
                             />
                             <RadialBar
-                                // FIX: Pass a style object to the background prop
                                 background={{ fill: alpha(theme.palette.primary.main, 0.1) }}
                                 clockWise
                                 dataKey="value"

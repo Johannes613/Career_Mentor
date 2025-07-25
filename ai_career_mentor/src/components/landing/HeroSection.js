@@ -1,12 +1,10 @@
 import React from 'react';
 import { Box, Typography, Button, Stack } from '@mui/material';
 import { Link as ScrollLink } from 'react-scroll';
-import { Link as RouterLink } from 'react-router-dom'; // Import Link for routing
+import { Link as RouterLink } from 'react-router-dom'; 
 
-// Make sure the path to your image is correct
 import HeroImage from '../../assets/images/heroImg.jpg'; 
 
-// FIX: The onNavigateToLogin prop is no longer needed
 const HeroSection = () => {
     return (
         <Box
@@ -23,7 +21,6 @@ const HeroSection = () => {
                 backgroundPosition: 'top',
             }}
         >
-            {/* Dark overlay for text contrast */}
             <Box 
                 sx={{
                     position: 'absolute',
@@ -43,21 +40,19 @@ const HeroSection = () => {
                     fontWeight="bold" 
                     gutterBottom 
                     sx={{ 
-                        textShadow: '0 2px 4px rgba(0,0,0,0.5)',
-                        fontSize: { xs: '2.2rem', sm: '3rem', md: '3.5rem' } 
+                        fontSize: { xs: '2.2rem', sm: '2.7rem', md: '3.1rem' } 
                     }}
                 >
-                    Your AI-Powered Career Mentor
+                    Your Personalized Career Mentor
                 </Typography>
                 <Typography 
                     variant="h6" 
-                    color="rgba(255,255,255,0.9)" 
-                    sx={{ my: 3, textShadow: '0 1px 3px rgba(0,0,0,0.4)', maxWidth: '700px', mx: 'auto' }}
+                    color="rgba(255, 255, 255, 0.79)" 
+                    sx={{ my: 3,  maxWidth: '700px', mx: 'auto' }}
                 >
                     Stop guessing, start planning. Get data-driven resume feedback, personalized career roadmaps, and tailored cover letters, all in one place.
                 </Typography>
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="center">
-                    {/* FIX: This button now uses RouterLink to navigate to the /dashboard route */}
                     <Button 
                         component={RouterLink}
                         to="/dashboard"

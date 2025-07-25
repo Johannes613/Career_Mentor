@@ -21,7 +21,7 @@ import { Link as ScrollLink } from "react-scroll";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { Bot } from "lucide-react";
 import { useThemeContext } from "../../contexts/ThemeContext";
-import { useAuth } from "../../contexts/AuthContext"; // Import the useAuth hook
+import { useAuth } from "../../contexts/AuthContext"; 
 
 const TopBar = () => {
   const { mode, toggleTheme } = useThemeContext();
@@ -75,7 +75,6 @@ const TopBar = () => {
             </Typography>
           </Box>
 
-          {/* Desktop Nav Links */}
           <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
             {navLinks.map((link) => (
               <ScrollLink
@@ -160,7 +159,6 @@ const TopBar = () => {
             )}
           </Box>
 
-          {/* Mobile Menu Icon */}
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton onClick={toggleDrawer(true)} color="inherit">
               <MenuIcon />
@@ -169,12 +167,11 @@ const TopBar = () => {
         </Toolbar>
       </AppBar>
 
-      {/* Drawer for Mobile */}
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
         <Box
           sx={{ width: 250, bgcolor: "background.default", height: "100%" }}
           role="presentation"
-          onClick={toggleDrawer(false)} // Closes drawer when clicking anywhere
+          onClick={toggleDrawer(false)} 
         >
           <List>
             <ListItem>
@@ -191,7 +188,7 @@ const TopBar = () => {
                 smooth
                 duration={500}
                 offset={-70}
-                onClick={() => setDrawerOpen(false)} // Closes drawer on nav
+                onClick={() => setDrawerOpen(false)} 
               >
                 <ListItemButton>
                   <ListItemText primary={link.title} />

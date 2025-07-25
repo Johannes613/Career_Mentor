@@ -1,12 +1,10 @@
 import { pdfjs } from 'react-pdf';
 
-// Make sure to point to the worker file you copied to your /public folder
 pdfjs.GlobalWorkerOptions.workerSrc = `/pdf.worker.mjs`;
 
 /**
- * Extracts all text content from a PDF file.
- * @param {File} file - The PDF file object from an input.
- * @returns {Promise<string>} A promise that resolves with the full text of the PDF.
+ * @param {File} file
+ * @returns {Promise<string>}
  */
 export const extractTextFromPDF = async (file) => {
   const fileReader = new FileReader();
@@ -22,7 +20,7 @@ export const extractTextFromPDF = async (file) => {
           const page = await pdf.getPage(i);
           const textContent = await page.getTextContent();
           const pageText = textContent.items.map(item => item.str).join(' ');
-          fullText += pageText + '\n\n'; // Add newlines between pages
+          fullText += pageText + '\n\n'; 
         }
         resolve(fullText.trim());
       } catch (error) {
