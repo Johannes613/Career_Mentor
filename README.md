@@ -9,7 +9,7 @@
 
   <p><strong>CareerMentorAI</strong> is a professional, secure, and intelligent web application designed to guide students through their career journey. It leverages the power of AI to provide personalized career roadmaps, resume analysis, and tailored document generation, replacing uncertainty with a clear, data-driven plan for success.</p>
 
-  <hr/>
+<hr/>
 
   <h2>Live Preview</h2>
 
