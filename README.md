@@ -113,7 +113,7 @@ copy .\\node_modules\\pdfjs-dist\\build\\pdf.worker.mjs .\\public\\
     <li>
       <strong>Run the application:</strong>
       <pre><code style="background-color: #f2f2f2; padding: 5px; border-radius: 4px; display: block;">npm start</code></pre>
-      <p>The application will be available at https://ai-career-mentor.vercel.app/</p>
+      <p>The application will be available at https://ai-career-mentor.vercel.app/dashboard</p>
     </li>
   </ol>
 
