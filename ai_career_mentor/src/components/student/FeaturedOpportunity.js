@@ -19,9 +19,6 @@ const FeaturedOpportunity = () => {
     navigate("/dashboard/resume-analyzer");
   };
 
-  const handleAskCoachClick = () => {
-    window.dispatchEvent(new CustomEvent("open-chat"));
-  };
 
   return (
     <Card
@@ -113,7 +110,7 @@ const FeaturedOpportunity = () => {
             variant="outlined"
             size="large"
             color="inherit"
-            onClick={handleAskCoachClick}
+             onClick={handleAnalyzeClick}
             sx={{
               fontWeight: "bold",
               padding: "8px 24px",
