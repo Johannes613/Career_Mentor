@@ -20,7 +20,7 @@
 
   <p>
     🐳 Docker Image Available:  
-    <a href="https://hub.docker.com/repository/docker/johannes613/ai-career-mentor/general" target="_blank">
+    <a href="https://hub.docker.com/r/johannes613/ai-career-mentor/tags" target="_blank">
       https://hub.docker.com/repository/docker/johannes613/ai-career-mentor
     </a>
   </p>
