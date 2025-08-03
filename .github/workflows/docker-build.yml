@@ -22,9 +22,10 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push Docker image to private repo
+      - name: Build and push Docker image to Docker Hub
         uses: docker/build-push-action@v5
         with:
           context: ./ai_career_mentor
+          file: ./ai_career_mentor/Dockerfile
           push: true
           tags: johannes613/ai-career-mentor:latest
